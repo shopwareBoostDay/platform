@@ -10,7 +10,7 @@ Module.register('sw-dashboard', {
     description: 'sw-dashboard.general.descriptionTextModule',
     version: '1.0.0',
     targetVersion: '1.0.0',
-    color: '#6AD6F0',
+    color: '#25768a',
     icon: 'default-device-dashboard',
     favicon: 'icon-module-dashboard.png',
 
@@ -26,7 +26,7 @@ Module.register('sw-dashboard', {
     navigation: [{
         id: 'sw-dashboard',
         label: 'sw-dashboard.general.mainMenuItemGeneral',
-        color: '#6AD6F0',
+        color: '#25768a',
         icon: 'default-device-dashboard',
         path: 'sw.dashboard.index',
         position: 10
