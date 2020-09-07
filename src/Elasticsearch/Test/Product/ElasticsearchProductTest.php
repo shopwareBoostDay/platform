@@ -1305,6 +1305,21 @@ class ElasticsearchProductTest extends TestCase
     /**
      * @depends testIndexing
      */
+    public function testFilterPurchasePricesPriceField(TestDataCollection $data): void
+    {
+        $searcher = $this->createEntitySearcher();
+
+        // Filter by the PriceField purchasePrices
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('purchasePrices', 100));
+
+        $products = $searcher->search($this->productDefinition, $criteria, $data->getContext());
+        static::assertCount(3, $products->getIds());
+    }
+
+    /**
+     * @depends testIndexing
+     */
     public function testFilterCustomTextField(TestDataCollection $data): void
     {
         $criteria = new Criteria();
@@ -1538,6 +1553,9 @@ class ElasticsearchProductTest extends TestCase
             ],
             'visibilities' => [
                 ['salesChannelId' => Defaults::SALES_CHANNEL, 'visibility' => ProductVisibilityDefinition::VISIBILITY_ALL],
+            ],
+            'purchasePrices' => [
+                ['currencyId' => Defaults::CURRENCY, 'gross' => $purchasePrice, 'net' => $purchasePrice / 115 * 100, 'linked' => false],
             ],
         ];
 

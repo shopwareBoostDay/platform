@@ -40,7 +40,8 @@
     },
     "priceForm": {
       "labelTaxRate": "Steuersatz",
-      "labelPurchasePriceGross": "Einkaufspreis (Brutto)",
+      "labelPurchasePriceGross": "Einkaufspreis (brutto)",
+      "labelPurchasePriceNet": "Einkaufspreis (netto)",
       "labelUnit": "Maßeinheit",
       "labelPurchaseUnit": "Verkaufseinheit",
       "labelReferenceUnit": "Grundeinheit",
@@ -225,8 +226,8 @@
       "propertiesInherited": "Dieses Produkt hat vererbte Eigenschaften vom Hauptprodukt.",
       "linkPropertiesOfParent": "Zeige die Eigenschaften des Hauptprodukts",
       "inheritSwitchLabel": "Nutze die Eigfenschaften des Hauptprodukts",
-      "propertiesNotInherited": "Du kannst jetzt benutzerdefinierte Eigenschaften für diese Variante verwenden."
-
+      "propertiesNotInherited": "Du kannst jetzt benutzerdefinierte Eigenschaften für diese Variante verwenden.",
+      "propertiesNotExisting": "Diesem Produkt sind noch keine Eigenschaften zugewiesen."
     },
     "variations": {
       "emptyStateDescription": "Dieses Produkt hat noch keine Varianten.",
@@ -260,7 +261,6 @@
       "generatedListDeleteModalButtonDelete": "Löschen",
       "generatedListMessageSaveSuccess": "Die Variante wurde gespeichert.",
       "generatedListMessageSaveError": "Die Variante konnte nicht gespeichert werden.",
-      "generatedListTitleDeleteError": "Gelöscht",
       "generatedListMessageDeleteSuccess": "Die Variante wurde gelöscht.",
       "overview": {
         "filterReset": "Zurücksetzen",
@@ -331,7 +331,6 @@
       "releaseDateDescendingSortingType": "Erscheinungsdatum, absteigend",
       "productStreamType": "Dynamische Produktgruppe",
       "productListType": "Manuelle Zuweisung",
-      "releaseDateSortingType": "Erscheinungsdatum",
       "deleteConfirmTitle": "Cross Selling löschen",
       "deleteConfirmText": "Möchtest Du die Cross Selling-Konfiguration wirklich löschen?",
       "deleteButtonCancel": "Zurück",

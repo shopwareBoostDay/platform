@@ -11,6 +11,7 @@ import 'bootstrap';
 /*
 import helpers
  */
+import Feature from 'src/helper/feature.helper';
 import PluginManager from 'src/plugin-system/plugin.manager';
 import ViewportDetection from 'src/helper/viewport-detection.helper';
 import NativeEventEmitter from 'src/helper/emitter.helper';
@@ -150,10 +151,9 @@ if (window.gtagActive) {
     PluginManager.register('GoogleAnalytics', GoogleAnalyticsPlugin);
 }
 
-/**
- * @deprecated tag:v6.4.0 use storefront controller instead
- */
 window.storeApiClient = StoreApiClient;
+
+window.Feature = Feature;
 
 /*
 run plugins

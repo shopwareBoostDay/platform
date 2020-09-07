@@ -6,7 +6,8 @@
     "permissions": {},
     "roles": {
       "general": {
-        "labelCreateNewRole": "Neue Regel"
+        "labelCreateNewRole": "Neue Regel",
+        "cardLabel": "Rollen"
       },
       "role-grid": {
         "labelName": "Name",
@@ -35,7 +36,8 @@
         "permissions": "Berechtigungen"
       },
       "grid": {
-        "title": "Berechtigungen"
+        "title": "Berechtigungen",
+        "disabledCheckboxMessage": "Um diese Option deaktivieren zu können, musst Du zuerst andere aktive Optionen deaktivieren."
       },
       "additional-permissions": {
         "title": "Zusätzliche Berechtigungen"
@@ -46,7 +48,8 @@
         "mainMenuItemGeneral": "Benutzer & Rechte",
         "placeholderSearchBar": "Finde Benutzer ...",
         "labelUserList": "Benutzer & Rechte",
-        "labelCreateNewUser": "Neuer Benutzer"
+        "labelCreateNewUser": "Neuer Benutzer",
+        "cardLabel": "Benutzer"
       },
       "user-grid": {
         "labelUsername": "Benutzername",
@@ -105,6 +108,7 @@
         "addAccessKey": "Neuer Zugangsschlüssel",
         "labelAccessKey": "Zugangsschlüssel",
         "labelPermissions": "Berechtigungen",
+        "disabledRoleSelectWarning": "Rollen sind nur für Benutzer verfügbar, die kein \"Administrator\" sind.",
         "modal": {
           "detailModalTitle": "Integration anlegen",
           "detailModalTitleEdit": "Bearbeiten",

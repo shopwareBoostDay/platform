@@ -2,6 +2,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import 'src/module/sw-category/view/sw-category-detail-base';
 
+
 describe('module/sw-category/view/sw-category-detail-base.spec', () => {
     let wrapper;
     let localVue;
@@ -57,20 +58,25 @@ describe('module/sw-category/view/sw-category-detail-base.spec', () => {
             },
             mocks: {
                 $tc: key => key,
-                $store: Shopware.State._store,
-                next9278: true
+                $store: Shopware.State._store
             },
             propsData: {
                 isLoading: false,
                 manualAssignedProductsCount: 0
             },
             provide: {
+                acl: {
+                    can: () => true
+                },
                 repositoryFactory: {
                     create: () => {
                         return {
                             get: () => Promise.resolve(productStreamMock)
                         };
                     }
+                },
+                feature: {
+                    isActive: () => true
                 }
             }
         });

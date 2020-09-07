@@ -153,6 +153,16 @@ class ProductGenerator implements DemodataGeneratorInterface
             'prices' => $this->createPrices($rules, $reverseTaxrate),
         ];
 
+        $purchasePrice = $context->getFaker()->randomFloat(2, 1, 100);
+        $product['purchasePrices'] = [
+            [
+                'currencyId' => Defaults::CURRENCY,
+                'gross' => $purchasePrice,
+                'net' => $purchasePrice / $reverseTaxrate,
+                'linked' => true,
+            ],
+        ];
+
         return $product;
     }
 

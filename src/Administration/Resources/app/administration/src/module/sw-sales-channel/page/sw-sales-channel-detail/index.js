@@ -156,7 +156,6 @@ Component.register('sw-sales-channel-detail', {
             this.loadCustomFieldSets();
         },
 
-
         loadSalesChannel() {
             this.isLoading = true;
             this.salesChannelRepository
@@ -252,7 +251,7 @@ Component.register('sw-sales-channel-detail', {
 
             const salesChannelDomainUrl = this.productExport.salesChannelDomain.url.replace(/\/+$/g, '');
             this.productComparison.productComparisonAccessUrl =
-                `${salesChannelDomainUrl}/export/${this.productExport.accessKey}/${this.productExport.fileName}`;
+                `${salesChannelDomainUrl}/store-api/product-export/${this.productExport.accessKey}/${this.productExport.fileName}`;
         },
 
         loadProductExportTemplates() {

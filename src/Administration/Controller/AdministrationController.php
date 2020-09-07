@@ -2,11 +2,11 @@
 
 namespace Shopware\Administration\Controller;
 
-use Shopware\Administration\KnownIps\KnownIpsCollectorInterface;
+use Shopware\Administration\Framework\Routing\KnownIps\KnownIpsCollectorInterface;
 use Shopware\Administration\Snippet\SnippetFinderInterface;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Adapter\Twig\TemplateFinder;
-use Shopware\Core\Framework\FeatureFlag\FeatureConfig;
+use Shopware\Core\Framework\Feature;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Store\Services\FirstRunWizardClient;
 use Shopware\Core\PlatformRequest;
@@ -33,6 +33,9 @@ class AdministrationController extends AbstractController
      */
     private $snippetFinder;
 
+    /**
+     * @var array
+     */
     private $supportedApiVersions;
 
     /**
@@ -44,7 +47,7 @@ class AdministrationController extends AbstractController
         TemplateFinder $finder,
         FirstRunWizardClient $firstRunWizardClient,
         SnippetFinderInterface $snippetFinder,
-        $supportedApiVersions,
+        array $supportedApiVersions,
         KnownIpsCollectorInterface $knownIpsCollector
     ) {
         $this->finder = $finder;
@@ -63,7 +66,7 @@ class AdministrationController extends AbstractController
         $template = $this->finder->find('@Administration/administration/index.html.twig');
 
         return $this->render($template, [
-            'features' => FeatureConfig::getAll(),
+            'features' => Feature::getAll(),
             'systemLanguageId' => Defaults::LANGUAGE_SYSTEM,
             'defaultLanguageIds' => [Defaults::LANGUAGE_SYSTEM],
             'systemCurrencyId' => Defaults::CURRENCY,

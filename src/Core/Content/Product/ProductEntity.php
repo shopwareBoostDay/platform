@@ -161,9 +161,16 @@ class ProductEntity extends Entity
     protected $shippingFree;
 
     /**
+     * @deprecated tag:v6.4.0 use $purchasePrices instead
+     *
      * @var float|null
      */
     protected $purchasePrice;
+
+    /**
+     * @var PriceCollection|null
+     */
+    protected $purchasePrices;
 
     /**
      * @var bool|null
@@ -629,14 +636,30 @@ class ProductEntity extends Entity
         $this->shippingFree = $shippingFree;
     }
 
+    /**
+     * @deprecated tag:v6.4.0 use getPurchasePrices() instead
+     */
     public function getPurchasePrice(): ?float
     {
         return $this->purchasePrice;
     }
 
+    /**
+     * @deprecated tag:v6.4.0 use setPurchasePrices() instead
+     */
     public function setPurchasePrice(?float $purchasePrice): void
     {
         $this->purchasePrice = $purchasePrice;
+    }
+
+    public function getPurchasePrices(): ?PriceCollection
+    {
+        return $this->purchasePrices;
+    }
+
+    public function setPurchasePrices(?PriceCollection $purchasePrices): void
+    {
+        $this->purchasePrices = $purchasePrices;
     }
 
     public function getMarkAsTopseller(): ?bool
@@ -1284,11 +1307,6 @@ class ProductEntity extends Entity
     public function setFeatureSet(ProductFeatureSetEntity $featureSet): void
     {
         $this->featureSet = $featureSet;
-    }
-
-    public function getApiAlias(): string
-    {
-        return 'product';
     }
 
     public function getCustomFieldSetSelectionActive(): ?bool

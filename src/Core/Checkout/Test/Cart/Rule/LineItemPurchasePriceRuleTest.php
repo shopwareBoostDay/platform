@@ -9,6 +9,8 @@ use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
 use Shopware\Core\Checkout\Cart\Rule\CartRuleScope;
 use Shopware\Core\Checkout\Cart\Rule\LineItemPurchasePriceRule;
 use Shopware\Core\Checkout\Cart\Rule\LineItemScope;
+use Shopware\Core\Defaults;
+use Shopware\Core\Framework\DataAbstractionLayer\Pricing\Price;
 use Shopware\Core\Framework\Rule\Rule;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -42,6 +44,8 @@ class LineItemPurchasePriceRuleTest extends TestCase
     }
 
     /**
+     * @deprecated tag:v6.4.0 - purchasePrice will be removed in 6.4.0 use purchasePrices
+     *
      * @dataProvider getMatchingRuleTestData
      */
     public function testIfMatchesCorrectWithLineItem(string $operator, float $amount, float $lineItemAmount, bool $expected): void
@@ -53,6 +57,44 @@ class LineItemPurchasePriceRuleTest extends TestCase
 
         $match = $this->rule->match(new LineItemScope(
             $this->createLineItem($lineItemAmount),
+            $this->createMock(SalesChannelContext::class)
+        ));
+
+        static::assertEquals($expected, $match);
+    }
+
+    /**
+     * @dataProvider getMatchingRuleTestData
+     */
+    public function testIfMatchesCorrectWithLineItemPurchasePriceGross(string $operator, float $amount, float $lineItemPurchasePriceGross, bool $expected): void
+    {
+        $this->rule->assign([
+            'isNet' => false,
+            'amount' => $amount,
+            'operator' => $operator,
+        ]);
+
+        $match = $this->rule->match(new LineItemScope(
+            $this->createLineItemWithPurchasePrice(0, $lineItemPurchasePriceGross),
+            $this->createMock(SalesChannelContext::class)
+        ));
+
+        static::assertEquals($expected, $match);
+    }
+
+    /**
+     * @dataProvider getMatchingRuleTestData
+     */
+    public function testIfMatchesCorrectWithLineItemPurchasePriceNet(string $operator, float $amount, float $lineItemPurchasePriceNet, bool $expected): void
+    {
+        $this->rule->assign([
+            'isNet' => true,
+            'amount' => $amount,
+            'operator' => $operator,
+        ]);
+
+        $match = $this->rule->match(new LineItemScope(
+            $this->createLineItemWithPurchasePrice($lineItemPurchasePriceNet, 0),
             $this->createMock(SalesChannelContext::class)
         ));
 
@@ -88,6 +130,8 @@ class LineItemPurchasePriceRuleTest extends TestCase
     }
 
     /**
+     * @deprecated tag:v6.4.0 - purchasePrice will be removed in 6.4.0 use purchasePrices
+     *
      * @dataProvider getCartRuleScopeTestData
      */
     public function testIfMatchesCorrectWithCartRuleScope(string $operator, float $amount, float $lineItemAmount1, float $lineItemAmount2, bool $expected): void
@@ -102,6 +146,33 @@ class LineItemPurchasePriceRuleTest extends TestCase
         $lineItemCollection = new LineItemCollection();
         $lineItemCollection->add($this->createLineItem($lineItemAmount1));
         $lineItemCollection->add($this->createLineItem($lineItemAmount2));
+
+        $cart->setLineItems($lineItemCollection);
+
+        $match = $this->rule->match(new CartRuleScope(
+            $cart,
+            $this->createMock(SalesChannelContext::class)
+        ));
+
+        static::assertEquals($expected, $match);
+    }
+
+    /**
+     * @dataProvider getCartRuleScopeTestData
+     */
+    public function testIfMatchesCorrectWithCartRuleScopePurchasePrice(string $operator, float $amount, float $lineItemPurchasePrice1, float $lineItemPurchasePrice2, bool $expected): void
+    {
+        $this->rule->assign([
+            'isNet' => true,
+            'amount' => $amount,
+            'operator' => $operator,
+        ]);
+
+        $cart = new Cart('test', Uuid::randomHex());
+
+        $lineItemCollection = new LineItemCollection();
+        $lineItemCollection->add($this->createLineItemWithPurchasePrice($lineItemPurchasePrice1));
+        $lineItemCollection->add($this->createLineItemWithPurchasePrice($lineItemPurchasePrice2));
 
         $cart->setLineItems($lineItemCollection);
 
@@ -154,9 +225,30 @@ class LineItemPurchasePriceRuleTest extends TestCase
         static::assertFalse($match);
     }
 
+    /**
+     * @deprecated tag:v6.4.0 - purchasePrice will be removed in 6.4.0 use purchasePrices
+     */
     private function createLineItem(float $purchasePrice): LineItem
     {
         return (new LineItem(Uuid::randomHex(), 'product', null, 3))
             ->setPayloadValue('purchasePrice', $purchasePrice);
+    }
+
+    private function createLineItemWithPurchasePrice(
+        float $purchasePriceNet = 0,
+        float $purchasePriceGross = 0
+    ): LineItem {
+        $lineItemWithPurchasePrice = new LineItem(Uuid::randomHex(), 'product', null, 3);
+        $lineItemWithPurchasePrice->setPayloadValue(
+            'purchasePrices',
+            json_encode(new Price(
+                Defaults::CURRENCY,
+                $purchasePriceNet,
+                $purchasePriceGross,
+                false
+            ))
+        );
+
+        return $lineItemWithPurchasePrice;
     }
 }

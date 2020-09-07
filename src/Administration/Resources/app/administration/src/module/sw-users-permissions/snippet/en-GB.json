@@ -6,7 +6,8 @@
     "permissions": {},
     "roles": {
       "general": {
-        "labelCreateNewRole": "Create new role"
+        "labelCreateNewRole": "Create new role",
+        "cardLabel": "Roles"
       },
       "role-grid": {
         "labelName": "Name",
@@ -35,7 +36,8 @@
         "permissions": "Permissions"
       },
       "grid": {
-        "title": "Permissions"
+        "title": "Permissions",
+        "disabledCheckboxMessage": "To disable this option, you must first disable other active options."
       },
       "additional-permissions": {
         "title": "Additional permissions"
@@ -46,7 +48,8 @@
         "mainMenuItemGeneral": "Users & permissions",
         "placeholderSearchBar": "Find users...",
         "labelUserList": "Users & permissions",
-        "labelCreateNewUser": "Create new user"
+        "labelCreateNewUser": "Create new user",
+        "cardLabel": "Users"
       },
       "user-grid": {
         "labelUsername": "Username",
@@ -105,6 +108,7 @@
         "addAccessKey": "New access key",
         "labelAccessKey": "Access key",
         "labelPermissions": "Permissions",
+        "disabledRoleSelectWarning": "Roles are only available for users who are not \"administrator\".",
         "modal": {
           "detailModalTitle": "Create integration",
           "detailModalTitleEdit": "Edit",

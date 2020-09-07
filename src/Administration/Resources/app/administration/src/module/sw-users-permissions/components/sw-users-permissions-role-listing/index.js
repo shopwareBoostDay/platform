@@ -12,12 +12,16 @@ Component.register('sw-users-permissions-role-listing', {
         Mixin.getByName('notification')
     ],
 
+    inject: ['repositoryFactory'],
+
     data() {
         return {
             roles: [],
             isLoading: false,
             itemToDelete: null,
-            disableRouteParams: true
+            confirmDelete: null,
+            disableRouteParams: true,
+            confirmPasswordModal: false
         };
     },
 
@@ -33,7 +37,7 @@ Component.register('sw-users-permissions-role-listing', {
         },
 
         roleRepository() {
-            return Shopware.Service('repositoryFactory').create('acl_role');
+            return this.repositoryFactory.create('acl_role');
         },
 
         roleCriteria() {
@@ -99,10 +103,21 @@ Component.register('sw-users-permissions-role-listing', {
             this.itemToDelete = null;
         },
 
-        onConfirmDelete(role) {
-            this.roleRepository.delete(role.id, Shopware.Context.api).then(() => {
+        onConfirmDelete() {
+            this.confirmDelete = this.itemToDelete;
+
+            this.onCloseDeleteModal();
+
+            this.confirmPasswordModal = true;
+        },
+
+        deleteRole(context) {
+            this.confirmPasswordModal = false;
+            const role = this.confirmDelete;
+            this.confirmDelete = null;
+
+            this.roleRepository.delete(role.id, context).then(() => {
                 this.createNotificationSuccess({
-                    title: this.$tc('sw-users-permissions.roles.role-grid.notification.deleteSuccess.title'),
                     message: this.$tc('sw-users-permissions.roles.role-grid.notification.deleteSuccess.message',
                         0,
                         { name: role.name })
@@ -111,14 +126,15 @@ Component.register('sw-users-permissions-role-listing', {
                 this.getList();
             }).catch(() => {
                 this.createNotificationError({
-                    title: this.$tc('sw-users-permissions.roles.role-grid.notification.deleteError.title'),
                     message: this.$tc('sw-users-permissions.roles.role-grid.notification.deleteError.message',
                         0,
                         { name: role.name })
                 });
             });
+        },
 
-            this.onCloseDeleteModal();
+        onCloseConfirmPasswordModal() {
+            this.confirmPasswordModal = false;
         }
     }
 });
