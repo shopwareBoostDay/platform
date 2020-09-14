@@ -7,7 +7,7 @@ This file is **deprecated** and no longer in use. You will find the changelog in
 If you want to learn more about writing or using the changelog, have a look [here](/adr/2020-08-03-Implement-New-Changelog.md). 
 
 ### 6.0.0 EA1 (2019-07-17)
-
+22222
 **Additions / Changes**
 
 * Added `JoinBuilderInterface` and moved join logic from `FieldResolver` into `JoinBuilder`
