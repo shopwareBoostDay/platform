@@ -5,7 +5,7 @@ For every feature or important code change there has to be a changelog markdown 
 
 In the file all necessary changes are documented. The content of the file should always use the template which can be found in the `/changelog/_template.md` file. You can see a full example in the `/changelog/_example.md` file for a better understanding. 
 
-#### Meta Information
+## Meta Information
 Next to the changelog information it is important to add the necessary meta information about your changes. Here is a detailed description of the meta information:
 
 *  `title` (Required): Add a meaningful title. It can match the file name.  
@@ -20,7 +20,7 @@ Next to the changelog information it is important to add the necessary meta info
 
 If you do not fill out some of the fields, please remove them from the file.
 
-#### Changelog Entries
+## Changelog Entries
 In the content of the file you add the technical changelog and upgrade information. The content is divided by first class headlines in the five categories:
 
 *  Core
@@ -48,5 +48,5 @@ Good changelog:
 
 Have a look into the `/changelog/_example.md` file for some examples.
 
-#### Upgrade Information
+## Upgrade Information
 In the section for the upgrade information you add documentation in markdown for each part of your changes. Please use second class headlines in markdown (`## `) to create new sections inside the upgrade information. You can use the content of `/changelog/_template.md` file as a start.
