@@ -20,6 +20,7 @@ NEXT
 ----------------
 
 #### Administration
+* Added `GTIN` label to the detail page
 * Added ACL permissions to countries module in settings
 * Added property `disabled` to `sw-settings-country-list` component
 * Added property `disabled` to `sw-settings-country-detail` component
