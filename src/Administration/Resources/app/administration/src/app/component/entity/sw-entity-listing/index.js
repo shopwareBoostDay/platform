@@ -88,6 +88,7 @@ Component.extend('sw-entity-listing', 'sw-data-grid', {
             lastSortedColumn: null
         };
     },
+
     computed: {
         detailPageLinkText() {
             if (!this.allowEdit && this.allowView) {
@@ -161,6 +162,9 @@ Component.extend('sw-entity-listing', 'sw-data-grid', {
 
         doSearch() {
             this.loading = true;
+
+            this.$emit('doSearch', this.items.criteria);
+
             return this.repository.search(this.items.criteria, this.items.context).then(this.applyResult);
         },
 

@@ -43,7 +43,8 @@
                             :showPreviews="true"
                             :sortBy="sortBy"
                             :sortDirection="sortDirection"
-                            :compactMode="false">
+                            :compactMode="false"
+                            @doSearch="getList">
 
                             <template #column-label="{ item, compact }" >
                                 {% block sw_plugin_list_grid_columns_label_label %}

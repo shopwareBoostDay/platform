@@ -39,10 +39,10 @@ Component.register('sw-plugin-list', {
             isLoading: false,
             sortBy: 'upgradedAt',
             sortDirection: 'desc',
-            sortType: 'upgradedAt:desc',
             showDeleteModal: false,
             showUninstallModal: false,
-            removePluginData: false
+            removePluginData: false,
+            listingCriteria: null
         };
     },
 
@@ -58,8 +58,13 @@ Component.register('sw-plugin-list', {
         },
 
         pluginCriteria() {
+            if (this.listingCriteria) {
+                return this.listingCriteria;
+            }
+
             const criteria = new Criteria(this.page, this.limit);
             criteria.addSorting(Criteria.sort(this.sortBy, this.sortDirection));
+
             if (this.searchTerm) {
                 criteria.setTerm(this.searchTerm);
             }
@@ -355,10 +360,12 @@ Component.register('sw-plugin-list', {
             });
         },
 
-        getList() {
+        getList(searchCriteria) {
             this.isLoading = true;
 
-            return State.dispatch('swPlugin/updatePluginList', this.searchData)
+            this.listingCriteria = searchCriteria;
+
+            State.dispatch('swPlugin/updatePluginList', this.searchData)
                 .finally(() => {
                     this.isLoading = false;
                 });
@@ -378,13 +385,13 @@ Component.register('sw-plugin-list', {
         isConfigAvailableForPlugins() {
             this.isLoading = true;
 
-            return Promise.all(this.plugins.map((plugin) => {
+            this.plugins.map((plugin) => {
                 if (!plugin.active) {
                     plugin.customFields = {
                         configAvailable: false
                     };
 
-                    return Promise.resolve();
+                    return null;
                 }
 
                 return systemConfigApiService.checkConfig(`${plugin.name}.config`).then((response) => {
@@ -396,8 +403,6 @@ Component.register('sw-plugin-list', {
                         configAvailable: false
                     };
                 });
-            })).finally(() => {
-                this.isLoading = false;
             });
         },
 
