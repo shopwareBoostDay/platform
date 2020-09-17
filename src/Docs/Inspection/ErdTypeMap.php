@@ -16,6 +16,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\CustomFields;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\EmailField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\EncryptedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Field;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FloatField;
@@ -80,6 +81,7 @@ class ErdTypeMap
         ParentAssociationField::class => 'parentAssociation',
         ParentFkField::class => 'parentFk',
         PasswordField::class => 'password',
+        EncryptedField::class => 'encrypted',
         PriceDefinitionField::class => 'priceDefinition',
         PriceField::class => 'price',
         ReferenceVersionField::class => 'referenceVersion',

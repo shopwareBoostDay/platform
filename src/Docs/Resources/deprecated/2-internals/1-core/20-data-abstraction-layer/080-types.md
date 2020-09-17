@@ -43,6 +43,7 @@ The field types below are available to build a definition.
 | `ParentFkField` | Short-hand for foreign key field `parentId` used in the parent/child concept |
 | `ChildCountField` | (Read-only) For saving the current count of children used in the parent/child concept |
 | `PasswordField` | For saving a hashed password |
+| `EncryptedField` | For saving a encrypted values |
 | `EmailField` | For saving email addresses |
 
 ## Standard types

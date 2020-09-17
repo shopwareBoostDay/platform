@@ -13,6 +13,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\CartPriceField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ChildrenAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\EncryptedField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Field;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
@@ -250,6 +251,7 @@ EOF;
                 break;
             case $field instanceof LongTextField:
             case $field instanceof PasswordField:
+            case $field instanceof EncryptedField:
             case $field instanceof IdField:
             case $field instanceof FkField:
             case $field instanceof StringField:
