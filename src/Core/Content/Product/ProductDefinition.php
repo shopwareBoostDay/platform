@@ -32,6 +32,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\ChildCountField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ChildrenAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\AllowHtml;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Deprecated;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Inherited;
@@ -167,7 +168,8 @@ class ProductDefinition extends EntityDefinition
             (new BoolField('custom_field_set_selection_active', 'customFieldSetSelectionActive'))->addFlags(new Inherited()),
 
             (new TranslatedField('metaDescription'))->addFlags(new Inherited()),
-            (new TranslatedField('name'))->addFlags(new Inherited(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            (new TranslatedField('name'))
+                ->addFlags(new Inherited(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING), new AllowHtml()),
             (new TranslatedField('keywords'))->addFlags(new Inherited()),
             (new TranslatedField('description'))->addFlags(new Inherited()),
             (new TranslatedField('metaTitle'))->addFlags(new Inherited()),

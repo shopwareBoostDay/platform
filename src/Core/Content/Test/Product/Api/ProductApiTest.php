@@ -192,6 +192,39 @@ class ProductApiTest extends TestCase
         static::assertSame($description, $product['data']['description']);
     }
 
+    public function testSpecialCharacterInNameTest(): void
+    {
+        $id = Uuid::randomHex();
+
+        $name = 'naming < test';
+
+        $data = [
+            'id' => $id,
+            'productNumber' => Uuid::randomHex(),
+            'stock' => 1,
+            'name' => $name,
+            'price' => [['currencyId' => Defaults::CURRENCY, 'gross' => 15, 'net' => 10, 'linked' => false]],
+            'manufacturer' => ['name' => 'test'],
+            'tax' => ['name' => 'test', 'taxRate' => 15],
+        ];
+
+        $this->getBrowser()->request('POST', '/api/v' . PlatformRequest::API_VERSION . '/product', $data);
+        static::assertSame(Response::HTTP_NO_CONTENT, $this->getBrowser()->getResponse()->getStatusCode(), $this->getBrowser()->getResponse()->getContent());
+
+        $this->getBrowser()->request('GET', '/api/v' . PlatformRequest::API_VERSION . '/product/' . $id, [], [], [
+            'HTTP_ACCEPT' => 'application/json',
+        ]);
+
+        $response = $this->getBrowser()->getResponse();
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+
+        $product = json_decode($response->getContent(), true);
+
+        static::assertNotEmpty($product);
+        static::assertArrayHasKey('data', $product);
+        static::assertSame($name, $product['data']['name']);
+    }
+
     public function testIncludesWithJsonApi(): void
     {
         $ids = new TestDataCollection(Context::createDefaultContext());
