@@ -33,6 +33,12 @@ Component.register('sw-seo-url', {
             default: false
         },
 
+        foreignKey: {
+            type: String,
+            required: false,
+            default: null
+        },
+
         hasDefaultTemplate: {
             type: Boolean,
             required: false,
@@ -43,6 +49,18 @@ Component.register('sw-seo-url', {
             type: Boolean,
             required: false,
             default: false
+        },
+
+        pathInfo: {
+            type: String,
+            required: false,
+            default: null
+        },
+
+        routeName: {
+            type: String,
+            required: false,
+            default: null
         }
     },
 
@@ -177,6 +195,10 @@ Component.register('sw-seo-url', {
                 const entity = this.seoUrlRepository.create(Shopware.Context.api);
                 Object.assign(entity, entityData);
 
+                if (entityData.id) {
+                    entity._isNew = false;
+                }
+
                 seoUrlCollection.add(entity);
             });
 
@@ -210,12 +232,12 @@ Component.register('sw-seo-url', {
 
             if (!currentSeoUrl) {
                 const entity = this.seoUrlRepository.create(Shopware.Context.api);
-                entity.foreignKey = this.defaultSeoUrl.foreignKey;
+                entity.foreignKey = this.foreignKey !== null ? this.foreignKey : this.defaultSeoUrl.foreignKey;
                 entity.isCanonical = true;
                 entity.languageId = actualLanguageId;
                 entity.salesChannelId = this.currentSalesChannelId;
-                entity.routeName = this.defaultSeoUrl.routeName;
-                entity.pathInfo = this.defaultSeoUrl.pathInfo;
+                entity.routeName = this.routeName !== null ? this.routeName : this.defaultSeoUrl.routeName;
+                entity.pathInfo = this.pathInfo !== null ? this.pathInfo : this.defaultSeoUrl.pathInfo;
                 entity.isModified = true;
 
                 this.seoUrlCollection.add(entity);

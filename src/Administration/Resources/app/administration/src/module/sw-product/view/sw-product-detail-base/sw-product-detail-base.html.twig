@@ -102,6 +102,9 @@
             {% block sw_product_detail_base_settings_seo_settings_url %}
                 <sw-seo-url v-if="product.seoUrls"
                             :isLoading="loading.product"
+                            :foreignKey="product.id"
+                            :pathInfo="'/detail/' + product.id"
+                            routeName="frontend.detail.page"
                             :hasDefaultTemplate="false"
                             :urls="product.seoUrls">
 

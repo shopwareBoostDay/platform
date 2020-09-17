@@ -460,7 +460,11 @@ Component.register('sw-product-detail', {
                             seoUrl.isModified = true;
                         }
 
-                        updatePromises.push(this.seoUrlService.updateCanonicalUrl(seoUrl, seoUrl.languageId));
+                        if (seoUrl.isNew()) {
+                            updatePromises.push(this.seoUrlService.createCustomUrl(seoUrl.routeName, [seoUrl], [], { 'sw-language-id': seoUrl.languageId }));
+                        } else {
+                            updatePromises.push(this.seoUrlService.updateCanonicalUrl(seoUrl, seoUrl.languageId));
+                        }
                     });
                 }
 
