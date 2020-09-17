@@ -3,7 +3,6 @@
 namespace Shopware\Storefront\Theme;
 
 use League\Flysystem\FilesystemInterface;
-use Padaliyajay\PHPAutoprefixer\Autoprefixer;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Formatter\Crunched;
 use ScssPhp\ScssPhp\Formatter\Expanded;
@@ -215,7 +214,7 @@ class ThemeCompiler implements ThemeCompilerInterface
         }
         $autoPreFixer = new Autoprefixer($cssOutput);
 
-        return $autoPreFixer->compile();
+        return $autoPreFixer->compile(false);
     }
 
     private function formatVariables(array $variables): array
