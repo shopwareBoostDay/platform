@@ -2,75 +2,33 @@
 
 namespace Shopware\Core\Checkout\Document\DocumentGenerator;
 
-use Shopware\Core\Checkout\Document\DocumentConfiguration;
-use Shopware\Core\Checkout\Document\DocumentConfigurationFactory;
-use Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
-use Twig\Error\Error;
 
-class DeliveryNoteGenerator implements DocumentGeneratorInterface
+class DeliveryNoteGenerator extends AbstractOrderDocumentGenerator implements DocumentGeneratorInterface
 {
-    public const DEFAULT_TEMPLATE = '@Framework/documents/delivery_note.html.twig';
     public const DELIVERY_NOTE = 'delivery_note';
+    public const DEFAULT_TEMPLATE = '@Framework/documents/delivery_note.html.twig';
 
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
-     * @var DocumentTemplateRenderer
-     */
-    private $documentTemplateRenderer;
-
-    public function __construct(DocumentTemplateRenderer $documentTemplateRenderer, string $rootDir)
+    public function supports(string $documentType): bool
     {
-        $this->rootDir = $rootDir;
-        $this->documentTemplateRenderer = $documentTemplateRenderer;
+        return $documentType === self::DELIVERY_NOTE;
     }
 
-    public function supports(): string
+    protected function getExtraParameters(OrderEntity $order, Context $context): array
     {
-        return self::DELIVERY_NOTE;
-    }
-
-    /**
-     * @throws Error
-     */
-    public function generate(
-        OrderEntity $order,
-        DocumentConfiguration $config,
-        Context $context,
-        ?string $templatePath = null
-    ): string {
-        $templatePath = $templatePath ?? self::DEFAULT_TEMPLATE;
-
-        $deliveries = null;
+        $delivery = null;
         if ($order->getDeliveries()) {
-            $deliveries = $order->getDeliveries()->first();
+            $delivery = $order->getDeliveries()->first();
         }
 
-        $documentString = $this->documentTemplateRenderer->render(
-            $templatePath,
-            [
-                'order' => $order,
-                'orderDelivery' => $deliveries,
-                'config' => DocumentConfigurationFactory::mergeConfiguration($config, new DocumentConfiguration())->jsonSerialize(),
-                'rootDir' => $this->rootDir,
-                'context' => $context,
-            ],
-            $context,
-            $order->getSalesChannelId(),
-            $order->getLanguageId(),
-            $order->getLanguage()->getLocale()->getCode()
-        );
-
-        return $documentString;
+        return [
+            'orderDelivery' => $delivery,
+        ];
     }
 
-    public function getFileName(DocumentConfiguration $config): string
+    protected function getDefaultTemplate(): string
     {
-        return $config->getFilenamePrefix() . $config->getDocumentNumber() . $config->getFilenameSuffix();
+        return self::DEFAULT_TEMPLATE;
     }
 }

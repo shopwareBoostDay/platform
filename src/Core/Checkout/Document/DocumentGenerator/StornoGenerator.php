@@ -2,88 +2,45 @@
 
 namespace Shopware\Core\Checkout\Document\DocumentGenerator;
 
-use Shopware\Core\Checkout\Document\DocumentConfiguration;
-use Shopware\Core\Checkout\Document\DocumentConfigurationFactory;
-use Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
-use Twig\Error\Error;
 
-class StornoGenerator implements DocumentGeneratorInterface
+class StornoGenerator extends AbstractOrderDocumentGenerator implements DocumentGeneratorInterface
 {
-    public const DEFAULT_TEMPLATE = '@Framework/documents/storno.html.twig';
     public const STORNO = 'storno';
+    public const DEFAULT_TEMPLATE = '@Framework/documents/storno.html.twig';
 
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
-     * @var DocumentTemplateRenderer
-     */
-    private $documentTemplateRenderer;
-
-    public function __construct(DocumentTemplateRenderer $documentTemplateRenderer, string $rootDir)
+    public function supports(string $documentType): bool
     {
-        $this->rootDir = $rootDir;
-        $this->documentTemplateRenderer = $documentTemplateRenderer;
+        return $documentType === self::STORNO;
     }
 
-    public function supports(): string
+    protected function getExtraParameters(OrderEntity $order, Context $context): array
     {
-        return self::STORNO;
+        $this->negatePrices($order);
+
+        return  [
+            'order' => $order,
+        ];
     }
 
-    /**
-     * @throws Error
-     */
-    public function generate(
-        OrderEntity $order,
-        DocumentConfiguration $config,
-        Context $context,
-        ?string $templatePath = null
-    ): string {
-        $templatePath = $templatePath ?? self::DEFAULT_TEMPLATE;
-
-        $order = $this->handlePrices($order);
-
-        $documentString = $this->documentTemplateRenderer->render(
-            $templatePath,
-            [
-                'order' => $order,
-                'config' => DocumentConfigurationFactory::mergeConfiguration($config, new DocumentConfiguration())->jsonSerialize(),
-                'rootDir' => $this->rootDir,
-                'context' => $context,
-            ],
-            $context,
-            $order->getSalesChannelId(),
-            $order->getLanguageId(),
-            $order->getLanguage()->getLocale()->getCode()
-        );
-
-        return $documentString;
-    }
-
-    public function getFileName(DocumentConfiguration $config): string
+    protected function getDefaultTemplate(): string
     {
-        return $config->getFilenamePrefix() . $config->getDocumentNumber() . $config->getFilenameSuffix();
+        return self::DEFAULT_TEMPLATE;
     }
 
-    private function handlePrices(OrderEntity $order)
+    private function negatePrices(OrderEntity $order)
     {
         foreach ($order->getLineItems() as $lineItem) {
-            $lineItem->setUnitPrice($lineItem->getUnitPrice() / -1);
-            $lineItem->setTotalPrice($lineItem->getTotalPrice() / -1);
+            $lineItem->setUnitPrice(-1 * $lineItem->getUnitPrice());
+            $lineItem->setTotalPrice(-1 * $lineItem->getTotalPrice());
         }
         foreach ($order->getPrice()->getCalculatedTaxes()->sortByTax()->getElements() as $tax) {
-            $tax->setTax($tax->getTax() / -1);
+            $tax->setTax(-1 * $tax->getTax());
         }
 
-        $order->setShippingTotal($order->getShippingTotal() / -1);
-        $order->setAmountNet($order->getAmountNet() / -1);
-        $order->setAmountTotal($order->getAmountTotal() / -1);
-
-        return $order;
+        $order->setShippingTotal(-1 * $order->getShippingTotal());
+        $order->setAmountNet(-1 * $order->getAmountNet());
+        $order->setAmountTotal(-1 * $order->getAmountTotal());
     }
 }

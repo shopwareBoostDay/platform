@@ -109,13 +109,10 @@ class InvoiceServiceTest extends TestCase
                 'displayHeader' => true,
             ]
         );
+        $documentConfiguration->order = $order;
         $context = Context::createDefaultContext();
 
-        $processedTemplate = $invoiceService->generate(
-            $order,
-            $documentConfiguration,
-            $context
-        );
+        $processedTemplate = $invoiceService->generate($documentConfiguration, $context);
 
         static::assertStringContainsString('<html>', $processedTemplate);
         static::assertStringContainsString('</html>', $processedTemplate);
