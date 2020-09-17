@@ -53,7 +53,7 @@ class RequestCriteriaBuilder
         if ($request->getMethod() === Request::METHOD_GET) {
             $criteria = $this->fromArray($request->query->all(), $criteria, $definition, $context, $request->attributes->getInt('version'));
         } else {
-            $params = array_merge($request->query->all(), $request->request->all());
+            $params = array_replace($request->query->all(), $request->request->all());
             $criteria = $this->fromArray($params, $criteria, $definition, $context, $request->attributes->getInt('version'));
         }
 
