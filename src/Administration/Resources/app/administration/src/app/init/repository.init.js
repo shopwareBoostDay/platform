@@ -1,5 +1,5 @@
 const RepositoryFactory = Shopware.Classes._private.RepositoryFactory;
-const { EntityHydrator, ChangesetGenerator, EntityFactory } = Shopware.Data;
+const { EntityHydrator, ChangesetGenerator, EntityCache, EntityFactory } = Shopware.Data;
 const ErrorResolverError = Shopware.DataDeprecated.ErrorResolver;
 
 export default function initializeRepositoryFactory(container) {
@@ -21,18 +21,23 @@ export default function initializeRepositoryFactory(container) {
         const changesetGenerator = new ChangesetGenerator();
         const entityFactory = new EntityFactory();
         const errorResolver = new ErrorResolverError();
+        const createRepositoryFactory = () => new RepositoryFactory(
+            hydrator,
+            changesetGenerator,
+            entityFactory,
+            httpClient,
+            errorResolver
+        );
+        const entityCache = new EntityCache(createRepositoryFactory());
 
         this.addServiceProvider('repositoryFactory', () => {
-            return new RepositoryFactory(
-                hydrator,
-                changesetGenerator,
-                entityFactory,
-                httpClient,
-                errorResolver
-            );
+            return createRepositoryFactory();
         });
         this.addServiceProvider('entityHydrator', () => {
             return hydrator;
+        });
+        this.addServiceProvider('entityCache', () => {
+            return entityCache;
         });
         this.addServiceProvider('entityFactory', () => {
             return entityFactory;
