@@ -98,6 +98,7 @@
       "placeholderMaxPurchase": "Max. amount purchaseable...",
       "placeholderPurchaseSteps": "Enter purchase steps...",
       "placeholderRestockTime": "Enter restock time in days...",
+      "placeholderEan": "Enter EAN number...",
       "placeholderGtin": "Enter GTIN...",
       "placeholderManufacturerNumber": "Enter product number...",
       "labelAvailableStock": "Available stock",

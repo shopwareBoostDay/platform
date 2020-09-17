@@ -98,6 +98,7 @@
       "placeholderMaxPurchase": "Maximalabnahme ...",
       "placeholderPurchaseSteps": "Verkaufsintervall (Stückzahl) ...",
       "placeholderRestockTime": "Wiederauffüllintervall ...",
+      "placeholderEan": "Gib die EAN-Nummer ein ...",
       "placeholderGtin": "Gib die GTIN ein ...",
       "placeholderManufacturerNumber": "Gib die Herstellernummer ein ...",
       "labelAvailableStock": "Verfügbarer Bestand",
