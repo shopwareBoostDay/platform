@@ -24,7 +24,12 @@
                                         {% endif %}
 
                                         {% sw_thumbnails 'cms-image-thumbnails' with {
-                                            media: element.data.media
+                                            media: element.data.media,
+                                            'xs': '400px',
+                                            'sm': '400px',
+                                            'md': '800px',
+                                            'lg': '1920px',
+                                            'xl': '1920px'
                                         } %}
                                     {% endblock %}
                                 </div>
