@@ -146,4 +146,43 @@ class RequestCriteriaBuilderTest extends TestCase
         static::assertCount(1, $sorting);
         static::assertEquals('_score', $sorting[0]->getField());
     }
+
+    public function testURLQueryParametersAreRespectedInPOSTRequests(): void
+    {
+        $request = new Request(['limit' => 11], [], [], [], []);
+        $request->setMethod(Request::METHOD_POST);
+
+        $criteria = $this->requestCriteriaBuilder->handleRequest(
+            $request,
+            new Criteria(),
+            $this->getContainer()->get(ProductDefinition::class),
+            Context::createDefaultContext()
+        );
+
+        static::assertEquals(11, $criteria->getLimit());
+    }
+
+    public function testQueryAndRequestParamsAreMerged(): void
+    {
+        $body = [
+            'limit' => 7,
+            'sort' => [
+                [
+                    'field' => '_score',
+                ],
+            ],
+        ];
+        $request = new Request(['limit' => 11, 'page' => 2], $body, [], [], []);
+        $request->setMethod(Request::METHOD_POST);
+
+        $criteria = $this->requestCriteriaBuilder->handleRequest(
+            $request,
+            new Criteria(),
+            $this->getContainer()->get(ProductDefinition::class),
+            Context::createDefaultContext()
+        );
+
+        static::assertEquals(7, $criteria->getLimit());
+        static::assertEquals(7, $criteria->getOffset());
+    }
 }
