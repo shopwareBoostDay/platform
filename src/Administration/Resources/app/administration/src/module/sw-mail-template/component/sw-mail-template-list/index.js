@@ -13,10 +13,19 @@ Component.register('sw-mail-template-list', {
         Mixin.getByName('notification')
     ],
 
+    props: {
+        searchTerm: {
+            type: String,
+            required: false,
+            default: ''
+        }
+    },
+
     data() {
         return {
             mailTemplates: null,
             showDeleteModal: null,
+            disableRouteParams: true,
             isLoading: false
         };
     },
@@ -27,12 +36,21 @@ Component.register('sw-mail-template-list', {
         }
     },
 
+    watch: {
+        searchTerm: {
+            handler(value) {
+                this.onSearch(value);
+            }
+        }
+    },
+
     methods: {
         getList() {
             this.isLoading = true;
             this.mailTemplates = null;
 
             const criteria = new Criteria(this.page, this.limit);
+            criteria.setTerm(this.term)
 
             criteria.getAssociation('salesChannels')
                 .setLimit(10)

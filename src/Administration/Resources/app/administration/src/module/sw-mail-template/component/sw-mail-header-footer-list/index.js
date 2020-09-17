@@ -12,17 +12,34 @@ Component.register('sw-mail-header-footer-list', {
         Mixin.getByName('listing')
     ],
 
+    props: {
+        searchTerm: {
+            type: String,
+            required: false,
+            default: ''
+        }
+    },
+
     data() {
         return {
             mailHeaderFooters: null,
             showDeleteModal: null,
-            isLoading: false
+            isLoading: false,
+            disableRouteParams: true
         };
     },
 
     computed: {
         mailHeaderFooterRepository() {
             return this.repositoryFactory.create('mail_header_footer');
+        }
+    },
+
+    watch: {
+        searchTerm: {
+            handler(value) {
+                this.onSearch(value);
+            }
         }
     },
 
@@ -42,7 +59,8 @@ Component.register('sw-mail-header-footer-list', {
             this.isLoading = true;
             this.mailHeaderFooters = null;
             const criteria = new Criteria(this.page, this.limit);
-            criteria.addAssociation('salesChannels');
+            criteria.setTerm(this.term)
+                    .addAssociation('salesChannels');
 
             this.mailHeaderFooterRepository.search(criteria, Shopware.Context.api).then((items) => {
                 this.total = items.total;

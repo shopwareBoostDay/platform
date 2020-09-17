@@ -1,17 +1,19 @@
 import template from './sw-mail-template-index.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Component } = Shopware;
 
 Component.register('sw-mail-template-index', {
     template,
 
-    mixins: [
-        Mixin.getByName('listing')
-    ],
-
     metaInfo() {
         return {
             title: this.$createTitle()
+        };
+    },
+
+    data() {
+        return {
+           searchTerm: ''
         };
     },
 
@@ -20,6 +22,9 @@ Component.register('sw-mail-template-index', {
             Shopware.State.commit('context/setApiLanguageId', languageId);
             this.$refs.mailHeaderFooterList.getList();
             this.$refs.mailTemplateList.getList();
-        }
+        },
+        onSearch(value) {
+            this.searchTerm = value;
+        },
     }
 });

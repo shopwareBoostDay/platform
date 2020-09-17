@@ -3,7 +3,6 @@
         {% block sw_mail_templates_list_search_bar %}
             <template #search-bar>
                 <sw-search-bar initialSearchType="mail_template"
-                               :initialSearch="term"
                                @search="onSearch">
                 </sw-search-bar>
             </template>
@@ -57,9 +56,9 @@
             <template #content>
                 <sw-card-view>
                     {% block sw_mail_template_list_content_card %}
-                        <sw-mail-template-list ref="mailTemplateList"></sw-mail-template-list>
+                        <sw-mail-template-list ref="mailTemplateList" :searchTerm="searchTerm"></sw-mail-template-list>
 
-                        <sw-mail-header-footer-list ref="mailHeaderFooterList"></sw-mail-header-footer-list>
+                        <sw-mail-header-footer-list ref="mailHeaderFooterList" :searchTerm="searchTerm"></sw-mail-header-footer-list>
                     {% endblock %}
                 </sw-card-view>
             </template>
