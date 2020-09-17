@@ -6,4 +6,4 @@ author_email: muehlhans.f@idowapro.de
 author_github: @muehlhansf
 ---
 # Administration
-* Added new label availability rule to `sw-settings-shipment-detail`
+* Added new label to availability rule selection in `sw-settings-shipment-detail`
