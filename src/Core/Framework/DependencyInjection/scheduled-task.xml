@@ -14,6 +14,11 @@
             <argument type="service" id="messenger.bus.shopware"/>
         </service>
 
+        <service id="Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskService">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="tagged" tag="messenger.message_handler"/>
+        </service>
+
         <service id="Shopware\Core\Framework\MessageQueue\ScheduledTask\Registry\TaskRegistry">
             <argument type="tagged" tag="shopware.scheduled.task" />
             <argument type="service" id="scheduled_task.repository"/>
@@ -47,6 +52,7 @@
 
         <service id="Shopware\Core\Framework\MessageQueue\ScheduledTask\Api\ScheduledTaskController" public="true">
             <argument type="service" id="Shopware\Core\Framework\MessageQueue\ScheduledTask\Scheduler\TaskScheduler"/>
+            <argument type="service" id="Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskService"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

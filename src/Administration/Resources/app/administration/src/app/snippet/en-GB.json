@@ -662,7 +662,8 @@
             "user": "User | Users",
             "delivery_time": "Delivery time | Delivery times",
             "import_export_profile": "Import/Export Profile | Import/Export Profiles",
-            "feature_set": "Template | Templates"
+            "feature_set": "Template | Templates",
+            "scheduled_task": "Scheduled Task | Scheduled Tasks"
         },
         "day-of-week": {
             "monday": "Monday",
