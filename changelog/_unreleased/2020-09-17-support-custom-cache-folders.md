@@ -8,7 +8,6 @@ author_github: @yannick80
 # Core
 *  Changed property name `cacheDir` to `projectDir`, updated write path for `dump` in `src/Core/Framework/Plugin/BundleConfigDumper.php`
 *  Changed parameter from `%kernel.cache_dir%` to `%kernel.project_dir%` in service description for `BundleConfigDumper` in `src/Core/Framework/DependencyInjection/plugin.xml`
-
 ___
 # Storefront
 *  Changed property name `cacheDir` to `projectDir`, updated write path for `execute`  in `src/Storefront/Theme/Command/ThemeDumpCommand.php`
