@@ -69,6 +69,11 @@ class ThemeCompiler implements ThemeCompilerInterface
      */
     private $cacheClearer;
 
+    /**
+     * @var bool
+     */
+    private $debug;
+
     public function __construct(
         FilesystemInterface $filesystem,
         FilesystemInterface $tempFilesystem,
@@ -93,6 +98,8 @@ class ThemeCompiler implements ThemeCompilerInterface
         $this->mediaRepository = $mediaRepository;
         $this->packages = $packages;
         $this->cacheClearer = $cacheClearer;
+
+        $this->debug = $debug;
     }
 
     public function compileTheme(
@@ -214,7 +221,7 @@ class ThemeCompiler implements ThemeCompilerInterface
         }
         $autoPreFixer = new Autoprefixer($cssOutput);
 
-        return $autoPreFixer->compile(false);
+        return $autoPreFixer->compile($this->debug);
     }
 
     private function formatVariables(array $variables): array
