@@ -102,6 +102,12 @@
         "alertManualAssignedProductsOnAssignmentTypeStream": "Es sind noch manuell zugewiesene Produkte in dieser Kategorie. Diese Produkte sind in dieser Kategorie nicht sichtbar, können jedoch in übergeordneten Kategorien sichtbar sein.",
         "dynamicProductGroupDetailLinkText": "Dynamische Produktgruppe Details",
         "dynamicProductGroupInvalidMessage": "Die ausgewählte dynamische Produktgruppe ist nicht gültig. Bitte überprüfe die Details der dynamischen Produktgruppe."
+      },
+      "modal": {
+        "changeTypeTitle": "Kategorietyp ändern",
+        "confirmChange": "Möchtest Du den Kategorietyp wirklich ändern? Alle Produktverlinkungen gehen dabei verloren.",
+        "confirmButton": "Bestätigen",
+        "cancelButton": "Abbrechen"
       }
     },
     "modal": {

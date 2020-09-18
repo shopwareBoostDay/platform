@@ -24,7 +24,7 @@
 
                 {% block sw_tree_item_element_selection %}
                     <div class="sw-tree-item__selection">
-                        <sw-field v-if="displayCheckbox"
+                        <sw-field v-if="displayCheckboxCallback(item)"
                                   :disabled="currentEditElement === item.data.id"
                                   @change="toggleItemCheck($event, item)"
                                   type="checkbox"
@@ -148,6 +148,7 @@
                                           :shouldFocus="shouldFocus"
                                           :activeFocusId="activeFocusId"
                                           :displayCheckbox="displayCheckbox"
+                                          :displayCheckboxCallback="displayCheckboxCallback"
                                           :disableContextMenu="disableContextMenu">
                                 {% block sw_tree_item_children_items_slots %}
                                     <template #content="{ item, openTreeItem, getName: innerGetName }">

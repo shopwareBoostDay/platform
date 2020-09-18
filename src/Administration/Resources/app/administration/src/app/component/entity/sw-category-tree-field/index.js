@@ -154,6 +154,10 @@ Component.register('sw-category-tree-field', {
     },
 
     methods: {
+        canSelectCategory(category) {
+            return ['folder', 'link'].indexOf(category.data.type) === -1;
+        },
+
         createdComponent() {
             document.addEventListener('click', this.closeDropdownOnClickOutside);
             document.addEventListener('keydown', this.handleGeneralKeyEvents);

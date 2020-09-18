@@ -19,7 +19,8 @@ Component.register('sw-category-detail-base', {
         return {
             productStreamFilter: null,
             productStreamInvalid: false,
-            manualAssignedProductsCount: 0
+            manualAssignedProductsCount: 0,
+            showChangeTypeModal: false
         };
     },
 
@@ -82,6 +83,10 @@ Component.register('sw-category-detail-base', {
 
         productStreamRepository() {
             return this.repositoryFactory.create('product_stream');
+        },
+
+        productRepository() {
+            return this.repositoryFactory.create(this.category.products.entity, this.category.products.source);
         },
 
         productColumns() {
@@ -164,6 +169,29 @@ Component.register('sw-category-detail-base', {
 
         onPaginateManualProductAssignment(assignment) {
             this.manualAssignedProductsCount = assignment.total;
+        },
+
+        onChangeCategoryType(value) {
+            if (this.category.type !== 'folder' && this.category.type !== 'link') {
+                this.showChangeTypeModal = value;
+                return;
+            }
+            this.category.type = value;
+        },
+
+        onCloseChangeTypeModal() {
+            this.showChangeTypeModal = false;
+        },
+
+        onConfirmChangeTypeModal(value) {
+            this.showChangeTypeModal = false;
+            this.category.type = value;
+            this.category.productStreamId = null;
+            this.productRepository.searchIds(this.productCriteria, Shopware.Context.api).then(({ data }) => {
+                data.forEach(id => {
+                    this.productRepository.delete(id, Shopware.Context.api);
+                });
+            });
         }
     }
 });

@@ -33,7 +33,8 @@
                             <sw-single-select
                                 :helpText="$tc('sw-category.base.general.types.help')"
                                 :label="$tc('sw-category.base.general.types.title')"
-                                v-model="category.type"
+                                :value="category.type"
+                                @change="onChangeCategoryType"
                                 :disabled="!acl.can('category.editor')"
                                 :options="categoryTypes">
                             </sw-single-select>
@@ -84,109 +85,111 @@
             {% endblock %}
 
             {% block sw_category_detail_products %}
-                <sw-many-to-many-assignment-card
-                    class="sw-category-detail-base__products"
-                    :title="$tc('sw-category.base.products.productAssignmentHeadline')"
-                    :entityCollection="category.products"
-                    :columns="productColumns"
-                    :isLoading="isLoading"
-                    :disabled="!acl.can('category.editor')"
-                    :localMode="category.isNew()"
-                    :criteria="productCriteria"
-                    :selectLabel="$tc('sw-category.base.products.productAssignmentLabel')"
-                    :placeholder="$tc('sw-category.base.products.productAssignmentPlaceholder')"
-                    @paginate="onPaginateManualProductAssignment">
+                <template v-if="category.type !== 'folder' && category.type !== 'link'">
+                    <sw-many-to-many-assignment-card
+                        class="sw-category-detail-base__products"
+                        :title="$tc('sw-category.base.products.productAssignmentHeadline')"
+                        :entityCollection="category.products"
+                        :columns="productColumns"
+                        :isLoading="isLoading"
+                        :disabled="!acl.can('category.editor')"
+                        :localMode="category.isNew()"
+                        :criteria="productCriteria"
+                        :selectLabel="$tc('sw-category.base.products.productAssignmentLabel')"
+                        :placeholder="$tc('sw-category.base.products.productAssignmentPlaceholder')"
+                        @paginate="onPaginateManualProductAssignment">
 
-                    {% block sw_category_detail_product_assignment_type_select %}
-                        <template #prepend-select>
-                            {% block sw_category_detail_product_assignment_type_select_field %}
-                                <sw-single-select
-                                    class="sw-category-detail__product-assignment-type-select"
-                                    v-model="category.productAssignmentType"
-                                    :label="$tc('sw-category.base.products.productAssignmentTypeLabel')"
-                                    :error="categoryProductAssignmentTypeError"
-                                    :options="productAssignmentTypes"
-                                    required>
-                                </sw-single-select>
-                            {% endblock %}
+                        {% block sw_category_detail_product_assignment_type_select %}
+                            <template #prepend-select>
+                                {% block sw_category_detail_product_assignment_type_select_field %}
+                                    <sw-single-select
+                                        class="sw-category-detail__product-assignment-type-select"
+                                        v-model="category.productAssignmentType"
+                                        :label="$tc('sw-category.base.products.productAssignmentTypeLabel')"
+                                        :error="categoryProductAssignmentTypeError"
+                                        :options="productAssignmentTypes"
+                                        required>
+                                    </sw-single-select>
+                                {% endblock %}
 
-                            {% block sw_category_detail_product_assignment_manual_alert %}
-                                <sw-alert
-                                    v-if="category.productAssignmentType === 'product_stream' && manualAssignedProductsCount > 0"
-                                    variant="info">
-                                    {{ $tc('sw-category.base.products.alertManualAssignedProductsOnAssignmentTypeStream') }}
-                                </sw-alert>
-                            {% endblock %}
+                                {% block sw_category_detail_product_assignment_manual_alert %}
+                                    <sw-alert
+                                        v-if="category.productAssignmentType === 'product_stream' && manualAssignedProductsCount > 0"
+                                        variant="info">
+                                        {{ $tc('sw-category.base.products.alertManualAssignedProductsOnAssignmentTypeStream') }}
+                                    </sw-alert>
+                                {% endblock %}
+                            </template>
+                        {% endblock %}
+
+                        {% block sw_category_detail_product_assignment_stream_select %}
+                            <template
+                                v-if="category.productAssignmentType === 'product_stream'"
+                                #select>
+
+                                {% block sw_category_detail_product_assignment_stream_select_field %}
+                                    <sw-entity-single-select
+                                        class="sw-category-detail__product-stream-select"
+                                        entity="product_stream"
+                                        :label="$tc('sw-category.base.products.productAssignmentTypeStreamLabel')"
+                                        :placeholder="$tc('sw-category.base.products.productAssignmentTypeStreamPlaceholder')"
+                                        :error="productStreamInvalidError || categoryProductStreamIdError"
+                                        v-model="category.productStreamId">
+                                    </sw-entity-single-select>
+                                {% endblock %}
+
+                                {% block sw_category_detail_product_assignment_stream_preview_link %}
+                                    <div class="sw-category-detail-base__product-stream-preview-link">
+                                        <router-link
+                                            v-if="category.productStreamId"
+                                            :to="{ name: 'sw.product.stream.detail', params: { id: category.productStreamId } }">
+                                            {{ $tc('sw-category.base.products.dynamicProductGroupDetailLinkText') }}
+                                            <sw-icon
+                                                name="default-arrow-simple-right"
+                                                small>
+                                            </sw-icon>
+                                        </router-link>
+                                    </div>
+                                {% endblock %}
+                            </template>
+                        {% endblock %}
+
+                        {% block sw_category_detail_product_assignment_stream_preview_grid %}
+                            <template
+                                v-if="category.productAssignmentType === 'product_stream'"
+                                #data-grid>
+                                <sw-product-stream-grid-preview
+                                    :filters="productStreamFilter"
+                                    :columns="productColumns">
+                                </sw-product-stream-grid-preview>
+                            </template>
+                        {% endblock %}
+
+                        <template v-slot:[nameColumn]="{ item, column }">
+                            <router-link
+                                :to="{ name: column.routerLink, params: { id: item.id } }">
+                                <sw-product-variant-info :variations="item.options">
+                                    {{ item.name || item.translated.name }}
+                                </sw-product-variant-info>
+                            </router-link>
                         </template>
-                    {% endblock %}
 
-                    {% block sw_category_detail_product_assignment_stream_select %}
-                        <template
-                            v-if="category.productAssignmentType === 'product_stream'"
-                            #select>
-
-                            {% block sw_category_detail_product_assignment_stream_select_field %}
-                                <sw-entity-single-select
-                                    class="sw-category-detail__product-stream-select"
-                                    entity="product_stream"
-                                    :label="$tc('sw-category.base.products.productAssignmentTypeStreamLabel')"
-                                    :placeholder="$tc('sw-category.base.products.productAssignmentTypeStreamPlaceholder')"
-                                    :error="productStreamInvalidError || categoryProductStreamIdError"
-                                    v-model="category.productStreamId">
-                                </sw-entity-single-select>
-                            {% endblock %}
-
-                            {% block sw_category_detail_product_assignment_stream_preview_link %}
-                                <div class="sw-category-detail-base__product-stream-preview-link">
-                                    <router-link
-                                        v-if="category.productStreamId"
-                                        :to="{ name: 'sw.product.stream.detail', params: { id: category.productStreamId } }">
-                                        {{ $tc('sw-category.base.products.dynamicProductGroupDetailLinkText') }}
-                                        <sw-icon
-                                            name="default-arrow-simple-right"
-                                            small>
-                                        </sw-icon>
-                                    </router-link>
-                                </div>
-                            {% endblock %}
+                        <template v-slot:[manufacturerColumn]="{ item, column }">
+                            <router-link
+                                v-if="item.manufacturerId"
+                                :to="{ name: column.routerLink, params: { id: item.manufacturerId } }">
+                                {{ item.manufacturer.name || item.manufacturer.translated.name }}
+                            </router-link>
+                            <span v-else></span>
                         </template>
-                    {% endblock %}
 
-                    {% block sw_category_detail_product_assignment_stream_preview_grid %}
-                        <template
-                            v-if="category.productAssignmentType === 'product_stream'"
-                            #data-grid>
-                            <sw-product-stream-grid-preview
-                                :filters="productStreamFilter"
-                                :columns="productColumns">
-                            </sw-product-stream-grid-preview>
+                        <template #empty-state>
+                            <img :src="'/administration/static/img/empty-states/products-empty-state.svg' | asset">
+
+                            <p>{{ $tc('sw-category.base.products.productAssignmentEmptyStateDescription') }}</p>
                         </template>
-                    {% endblock %}
-
-                    <template v-slot:[nameColumn]="{ item, column }">
-                        <router-link
-                            :to="{ name: column.routerLink, params: { id: item.id } }">
-                            <sw-product-variant-info :variations="item.options">
-                                {{ item.name || item.translated.name }}
-                            </sw-product-variant-info>
-                        </router-link>
-                    </template>
-
-                    <template v-slot:[manufacturerColumn]="{ item, column }">
-                        <router-link
-                            v-if="item.manufacturerId"
-                            :to="{ name: column.routerLink, params: { id: item.manufacturerId } }">
-                            {{ item.manufacturer.name || item.manufacturer.translated.name }}
-                        </router-link>
-                        <span v-else></span>
-                    </template>
-
-                    <template #empty-state>
-                        <img :src="'/administration/static/img/empty-states/products-empty-state.svg' | asset">
-
-                        <p>{{ $tc('sw-category.base.products.productAssignmentEmptyStateDescription') }}</p>
-                    </template>
-                </sw-many-to-many-assignment-card>
+                    </sw-many-to-many-assignment-card>
+                </template>
             {% endblock %}
 
             {% block sw_category_detail_seo %}
@@ -215,6 +218,33 @@
                         :sets="customFieldSetsArray">
                 </sw-custom-field-set-renderer>
             </sw-card>
+        {% endblock %}
+
+        {% block sw_category_change_type_modal %}
+            <sw-modal
+                v-if="showChangeTypeModal"
+            :title="$tc('sw-category.base.modal.changeTypeTitle')"
+            @modal-close="onCloseChangeTypeModal">
+                {% block sw_category_change_type_modal_confirm_text %}
+                    <p>
+                        {{ $tc('sw-category.base.modal.confirmChange') }}
+                    </p>
+                {% endblock %}
+
+                {% block sw_category_change_type_modal_footer %}
+                    <template #modal-footer>
+                        <sw-button size="small"
+                                   @click="onCloseChangeTypeModal">
+                            {{ $tc('sw-category.base.modal.buttonCancel') }}
+                        </sw-button>
+                        <sw-button size="small"
+                                   variant="danger"
+                                   @click="onConfirmChangeTypeModal(showChangeTypeModal)">
+                            {{ $tc('sw-category.base.modal.buttonChange') }}
+                        </sw-button>
+                    </template>
+                {% endblock %}
+            </sw-modal>
         {% endblock %}
     </div>
 {% endblock %}

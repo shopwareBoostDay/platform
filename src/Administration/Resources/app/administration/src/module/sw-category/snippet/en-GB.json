@@ -103,6 +103,12 @@
         "alertManualAssignedProductsOnAssignmentTypeStream": "There are still manually assigned products in this category. Those products will not be visible in this category but may be visible in parent categories.",
         "dynamicProductGroupDetailLinkText": "Dynamic product group details",
         "dynamicProductGroupInvalidMessage": "The selected dynamic product group is not valid. Please verify your dynamic product group details."
+      },
+      "modal": {
+        "changeTypeTitle": "Change category type",
+        "confirmChange": "Are you sure you want to change the category type? All product links will be deleted.",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
       }
     },
     "modal": {

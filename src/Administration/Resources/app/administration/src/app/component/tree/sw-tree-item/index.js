@@ -91,6 +91,13 @@ Component.register('sw-tree-item', {
             default: true
         },
 
+        displayCheckboxCallback: {
+            type: Function,
+            default() {
+                return () => this.displayCheckbox;
+            }
+        },
+
         allowNewCategories: {
             type: Boolean,
             required: false,
