@@ -1,7 +1,7 @@
 ---
 title: Add ability to search by Custom Fields in Administration Backend
 issue: NEXT-10855
-author: Mroczny Czesiek, Wojciech Milek
+author: Mroczny Czesiek
 author_email: mrocznyczesiek@gmail.com
 author_github: @MroczyCzesiek
 ---
