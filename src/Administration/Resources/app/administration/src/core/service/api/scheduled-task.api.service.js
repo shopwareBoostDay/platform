@@ -27,6 +27,21 @@ class ScheduledTaskApiService extends ApiService {
     }
 
     /**
+     * Run a specific scheduled task
+     *
+     * @returns {Promise<T>}
+     */
+    runTask(scheduledTaskId) {
+        const headers = this.getBasicHeaders();
+
+        return this.httpClient
+            .post(`/_action/${this.getApiBasePath()}/run/${scheduledTaskId}`, null, { headers })
+            .then((response) => {
+                return ApiService.handleResponse(response);
+            });
+    }
+
+    /**
      * Get the minimum run interval of all tasks
      *
      * @returns {Promise<T>}

@@ -2,6 +2,8 @@
 
 namespace Shopware\Core\Framework\MessageQueue\ScheduledTask\Api;
 
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskService;
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\Scheduler\TaskScheduler;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,9 +20,15 @@ class ScheduledTaskController extends AbstractController
      */
     private $taskScheduler;
 
-    public function __construct(TaskScheduler $taskScheduler)
+    /**
+     * @var ScheduledTaskService
+     */
+    private $scheduledTaskService;
+
+    public function __construct(TaskScheduler $taskScheduler, ScheduledTaskService $scheduledTaskService)
     {
         $this->taskScheduler = $taskScheduler;
+        $this->scheduledTaskService = $scheduledTaskService;
     }
 
     /**
@@ -31,6 +39,16 @@ class ScheduledTaskController extends AbstractController
         $this->taskScheduler->queueScheduledTasks();
 
         return $this->json(['message' => 'Success']);
+    }
+
+    /**
+     * @Route("/api/v{version}/_action/scheduled-task/run/{scheduledTaskId}", name="api.action.scheduled-task.run-task", methods={"POST"})
+     */
+    public function runScheduledTask(string $scheduledTaskId, Context $context): JsonResponse
+    {
+        $this->scheduledTaskService->runScheduledTask($scheduledTaskId, $context);
+
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 
     /**

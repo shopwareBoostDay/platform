@@ -1,0 +1,33 @@
+{
+  "sw-settings-scheduled-task": {
+    "general": {
+      "mainMenuItemGeneral": "Scheduled Tasks",
+      "description": "Settings module for managing scheduled tasks",
+      "placeholder": "Search all scheduled tasks..."
+    },
+    "list": {
+      "textHeadline": "Scheduled Tasks",
+      "columnName": "Name",
+      "columnRunInterval": "Run Interval in seconds",
+      "columnLastExecutionTime": "Last execution time",
+      "columnNextExecutionTime": "Next execution time",
+      "errorLoad": "Unable to load the scheduled tasks list.",
+      "unknownError": "Unknown error",
+      "actions": {
+        "run-manually": "Run task manually"
+      },
+      "manual-scheduled-task-execution": {
+        "started": "The scheduled task execution for {scheduledTaskName} started",
+        "succeeded": "The scheduled task execution for {scheduledTaskName} succeed",
+        "failed": "The scheduled task execution for {scheduledTaskName} failed with the following error: {errorMessage}"
+      }
+    }
+  },
+  "sw-privileges": {
+    "permissions": {
+      "scheduled_tasks": {
+        "label": "Scheduled tasks"
+      }
+    }
+  }
+}

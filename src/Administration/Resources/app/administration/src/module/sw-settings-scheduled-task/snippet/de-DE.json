@@ -1,0 +1,33 @@
+{
+  "sw-settings-scheduled-task": {
+    "general": {
+      "mainMenuItemGeneral": "Geplante Aufgaben",
+      "description": "Einstellungsmodul zur Verwaltung von geplanten Aufgaben",
+      "placeholder": "Durchsuche alle geplanten Aufgaben..."
+    },
+    "list": {
+      "textHeadline": "Geplante Aufgaben",
+      "columnName": "Name",
+      "columnRunInterval": "Ausführungsintervall in Sekunden",
+      "columnLastExecutionTime": "Letzter Ausführungszeitpunkt",
+      "columnNextExecutionTime": "Nächster Ausführungszeitpunkt",
+      "errorLoad": "Die Liste der geplanten Aufgaben konnte nicht geladen werden.",
+      "unknownError": "Unbekannter Fehler",
+      "actions": {
+        "run-manually": "Aufgabe manuell ausführen"
+      },
+      "manual-scheduled-task-execution": {
+        "started": "Die Ausführung der Aufgabe {scheduledTaskName} wurde gestartet",
+        "succeeded": "Die Ausführung der Aufgabe {scheduledTaskName} war erfolgreich",
+        "failed": "Die Ausführung der Aufgabe {scheduledTaskName} ist mit folgendem Fehler fehlgeschlagen: {errorMessage}"
+      }
+    }
+  },
+  "sw-privileges": {
+    "permissions": {
+      "scheduled_tasks": {
+        "label": "Geplante Aufgaben"
+      }
+    }
+  }
+}

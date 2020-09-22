@@ -662,7 +662,8 @@
       "user": "Benutzer",
       "delivery_time": "Lieferzeit | Lieferzeiten",
       "import_export_profile": "Import/Export Profil | Import/Export Profile",
-      "feature_set": "Template | Templates"
+      "feature_set": "Template | Templates",
+      "scheduled_task": "Geplante Aufgabe | Geplante Aufgaben"
     },
     "day-of-week": {
       "monday": "Montag",

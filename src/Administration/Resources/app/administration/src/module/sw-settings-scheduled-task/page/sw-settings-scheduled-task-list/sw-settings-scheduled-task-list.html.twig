@@ -1,0 +1,96 @@
+{% block sw_settings_scheduled_task_list %}
+    <sw-page class="sw-settings-scheduled-task-list">
+
+        {% block sw_settings_scheduled_task_list_smart_bar_header %}
+            <template slot="smart-bar-header">
+                {% block sw_settings_scheduled_task_list_smart_bar_header_title %}
+                    <h2>
+                        {% block sw_settings_scheduled_task_list_smart_bar_header_title_text %}
+                            {{ $t('sw-settings.index.title') }}
+                            <sw-icon name="small-arrow-medium-right" small></sw-icon>
+                            {{ $t('sw-settings-scheduled-task.list.textHeadline') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block sw_settings_scheduled_task_list_search_bar %}
+            <template #search-bar>
+                <sw-search-bar
+                    initialSearchType="scheduled_task"
+                    :placeholder="$t('sw-settings-scheduled-task.general.placeholder')"
+                    :initialSearch="term"
+                    @search="onSearch">
+                </sw-search-bar>
+            </template>
+        {% endblock %}
+
+        {% block sw_settings_scheduled_task_list_content %}
+            <template #content>
+
+                {% block sw_settings_scheduled_task_list_content_inner %}
+                    <sw-card-view>
+
+                        {% block sw_settings_scheduled_task_list_grid_wrapper %}
+                            <sw-card :large="true">
+                                <template #grid>
+
+                                    {% block sw_settings_scheduled_task_list_grid %}
+                                        <sw-entity-listing
+                                            class="sw-settings-scheduled-task-list-grid"
+                                            :items="scheduledTasks"
+                                            :columns="scheduledTaskColumns()"
+                                            :repository="scheduledTaskRepository"
+                                            :allowView="acl.can('scheduled_tasks.viewer')"
+                                            :allowEdit="acl.can('scheduled_tasks.editor')"
+                                            :allowDelete="false"
+                                            :allowColumnEdit="false"
+                                            :showSelection="false"
+                                            :showSettings="false"
+                                            :isLoading="isLoading"
+                                            :allowInlineEdit="true"
+                                            :fullPage="false">
+
+                                            {% block sw_settings_scheduled_task_list_grid_column_last_execution_time %}
+                                                <template #column-lastExecutionTime="{ item }">
+                                                    {{ item.lastExecutionTime | date({hour: '2-digit', minute: '2-digit'}) }}
+                                                </template>
+                                            {% endblock %}
+
+                                            {% block sw_settings_scheduled_task_list_grid_column_next_execution_time %}
+                                                <template #column-nextExecutionTime="{ item, column, compact, isInlineEdit }">
+                                                    <sw-data-grid-inline-edit
+                                                        v-if="isInlineEdit"
+                                                        :column="column"
+                                                        :compact="compact"
+                                                        :value="item[column.property]"
+                                                        @input="item[column.property] = $event">
+                                                    </sw-data-grid-inline-edit>
+
+                                                    <span v-else>
+                                                         {{ item.nextExecutionTime | date({hour: '2-digit', minute: '2-digit'}) }}
+                                                    </span>
+                                                </template>
+                                            {% endblock %}
+
+                                            {% block sw_settings_scheduled_task_list_grid_actions %}
+                                                <template #actions="{ item }">
+                                                    <sw-context-menu-item
+                                                        @click="runScheduledTask(item)">
+                                                        {{ $t('sw-settings-scheduled-task.list.actions.run-manually') }}
+                                                    </sw-context-menu-item>
+                                                </template>
+                                            {% endblock %}
+
+                                        </sw-entity-listing>
+                                    {% endblock %}
+                                </template>
+                            </sw-card>
+                        {% endblock %}
+                    </sw-card-view>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}
