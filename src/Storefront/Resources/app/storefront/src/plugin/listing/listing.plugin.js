@@ -25,7 +25,11 @@ export default class ListingPlugin extends Plugin {
         loadingElementLoaderClass: 'has-element-loader',
         snippets: {
             resetAllButtonText: 'Reset all'
-        }
+        },
+        //if the window should be scrolled to top of to the listingWrapper element
+        scrollTopListingWrapper: true,
+        // how much px the scrolling should be offset
+        scrollOffset: 15
     };
 
     init() {
@@ -165,6 +169,23 @@ export default class ListingPlugin extends Plugin {
         query = querystring.stringify(mapped);
 
         this._updateHistory(query);
+
+        if (this.options.scrollTopListingWrapper) {
+            this._scrollTopOfListing();
+        }
+    }
+
+    _scrollTopOfListing() {
+        const elemRect = this._cmsProductListingWrapper.getBoundingClientRect();
+        if (elemRect.top >= 0) {
+            return;
+        }
+
+        const top = elemRect.top + window.scrollY - this.options.scrollOffset;
+        window.scrollTo({
+            top: top,
+            behavior: 'smooth'
+        });
     }
 
     _updateHistory(query) {
