@@ -11,6 +11,7 @@
 
 </div>
 
+test
 
 <p align="center"><a href="https://shopware.com" target="_blank" rel="noopener noreferrer"><img width="250" src="https://s3.eu-central-1.amazonaws.com/shopware-platform-assets/github-platform/readme/swlogo_x250.png"></a></p>
 
