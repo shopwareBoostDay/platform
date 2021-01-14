@@ -14,12 +14,14 @@ export default class VariantSwitchPlugin extends Plugin {
     static options = {
         url: '',
         elementId: '',
-        radioFieldSelector: '.product-detail-configurator-option-input'
+        radioFieldSelector: '.product-detail-configurator-option-input',
+        selectFieldSelector: '.product-detail-configurator-select-input'
     };
 
     init() {
         this._httpClient = new HttpClient();
         this._radioFields = DomAccess.querySelectorAll(this.el, this.options.radioFieldSelector);
+        this._selectFields = DomAccess.querySelectorAll(this.el, this.options.selectFieldSelector);
         this._elementId = this.options.elementId;
 
         this._ensureFormElement();
@@ -119,6 +121,13 @@ export default class VariantSwitchPlugin extends Plugin {
                 if (field.checked) {
                     serialized[field.name] = field.value;
                 }
+            }
+        });
+
+        Iterator.iterate(this._selectFields, field => {
+            if (VariantSwitchPlugin._isFieldSerializable(field)) {
+                const selectedOption = [...field.options].find(option => option.selected);
+                serialized[field.name] = selectedOption.value;
             }
         });
 
