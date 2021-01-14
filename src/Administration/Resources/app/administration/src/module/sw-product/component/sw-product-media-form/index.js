@@ -229,11 +229,11 @@ Component.register('sw-product-media-form', {
                 this.product.coverId = null;
             }
 
+            this.product.media.remove(productMedia.id);
+
             if (this.product.coverId === null && this.product.media.length > 0) {
                 this.product.coverId = this.product.media.first().id;
             }
-
-            this.product.media.remove(productMedia.id);
         },
 
         markMediaAsCover(productMedia) {

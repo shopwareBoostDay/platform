@@ -117,4 +117,14 @@ describe('module/sw-product/component/sw-product-media-form', () => {
 
         expect(coverCount).toBe(1);
     });
+
+    it('should remove the cover properly if all medias removed', async () => {
+        const wrapper = createWrapper();
+
+        wrapper.vm.mediaItems.forEach(mediaItem => {
+            wrapper.vm.removeFile(mediaItem);
+        });
+
+        expect(wrapper.vm.product.cover).toBe(null);
+    });
 });
