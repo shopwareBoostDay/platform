@@ -1,5 +1,6 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
+import EntityCollection from 'src/core/data/entity-collection.data';
 import 'src/module/sw-product/component/sw-product-media-form';
 
 function createWrapper(privileges = []) {
@@ -11,7 +12,8 @@ function createWrapper(privileges = []) {
     return shallowMount(Shopware.Component.build('sw-product-media-form'), {
         localVue,
         mocks: {
-            $tc: () => {},
+            $tc: () => {
+            },
             $store: new Vuex.Store({
                 modules: {
                     swProductDetail: {
@@ -27,7 +29,9 @@ function createWrapper(privileges = []) {
             repositoryFactory: {},
             acl: {
                 can: (identifier) => {
-                    if (!identifier) { return true; }
+                    if (!identifier) {
+                        return true;
+                    }
 
                     return privileges.includes(identifier);
                 }
@@ -47,6 +51,27 @@ function createWrapper(privileges = []) {
 
 describe('module/sw-product/component/sw-product-media-form', () => {
     beforeAll(() => {
+        const mediaElements = [
+            {
+                mediaId: 'c621b5f556424911964e848fa1b7e8a5',
+                position: 1,
+                id: '520a8b95abc2446db77b173fcd718567',
+                media: {
+                    id: 'c621b5f556424911964e848fa1b7e8a5'
+                }
+            },
+            {
+                mediaId: 'c621b5f556424911964e848fa1b7e8a5',
+                position: 1,
+                id: '5a73a7f88b544a9ab52b2e795c95c7a7',
+                media: {
+                    id: 'c621b5f556424911964e848fa1b7e8a5'
+                }
+            }
+        ];
+
+        const mediaCollection = new EntityCollection('', '', {}, {}, mediaElements);
+
         const product = {
             cover: {
                 mediaId: 'c621b5f556424911964e848fa1b7e8a5',
@@ -57,24 +82,7 @@ describe('module/sw-product/component/sw-product-media-form', () => {
                 }
             },
             coverId: '520a8b95abc2446db77b173fcd718567',
-            media: [
-                {
-                    mediaId: 'c621b5f556424911964e848fa1b7e8a5',
-                    position: 1,
-                    id: '520a8b95abc2446db77b173fcd718567',
-                    media: {
-                        id: 'c621b5f556424911964e848fa1b7e8a5'
-                    }
-                },
-                {
-                    mediaId: 'c621b5f556424911964e848fa1b7e8a5',
-                    position: 1,
-                    id: '5a73a7f88b544a9ab52b2e795c95c7a7',
-                    media: {
-                        id: 'c621b5f556424911964e848fa1b7e8a5'
-                    }
-                }
-            ]
+            media: mediaCollection
         };
         product.getEntityName = () => 'T-Shirt';
 
@@ -128,5 +136,17 @@ describe('module/sw-product/component/sw-product-media-form', () => {
 
         const pageChangeEvents = wrapper.emitted()['media-open'];
         expect(pageChangeEvents.length).toBe(1);
+    });
+
+    it('should remove the cover properly if all medias removed', async () => {
+        const wrapper = createWrapper();
+
+        expect(wrapper.vm.product.cover).toBeTruthy();
+
+        wrapper.vm.mediaItems.forEach(mediaItem => {
+            wrapper.vm.removeFile(mediaItem);
+        });
+
+        expect(wrapper.vm.product.cover).toBe(null);
     });
 });
