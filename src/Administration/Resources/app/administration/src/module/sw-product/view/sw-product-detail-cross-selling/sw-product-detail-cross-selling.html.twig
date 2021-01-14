@@ -6,6 +6,7 @@
                 <sw-product-cross-selling-form
                     v-for="item in product.crossSellings"
                     :key="item.id"
+                    ref="crossSellingForm"
                     :crossSelling="item"
                     :allowEdit="acl.can('product.editor')">
                 </sw-product-cross-selling-form>

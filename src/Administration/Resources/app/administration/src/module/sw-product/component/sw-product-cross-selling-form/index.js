@@ -178,6 +178,12 @@ Component.register('sw-product-cross-selling-form', {
 
         onTypeChanged(value) {
             this.useManualAssignment = value === 'productList';
+        },
+
+        prepareToExit() {
+            if (this.showModalPreview) {
+                this.showModalPreview = false;
+            }
         }
     }
 });

@@ -18,6 +18,14 @@ Component.register('sw-product-detail-cross-selling', {
         }
     },
 
+    beforeRouteLeave(to, from, next) {
+        for (let i = 0; i < this.$refs.crossSellingForm.length; i += 1) {
+            this.$refs.crossSellingForm[i].prepareToExit();
+        }
+
+        this.$nextTick(() => next());
+    },
+
     data() {
         return {
             crossSelling: null
