@@ -385,6 +385,9 @@
       "textChangeLayout": "Layout ändern",
       "textCreateNewLayout": "Neues Layout erstellen",
       "textEditInDesigner": "Im Designer bearbeiten"
+    },
+    "notification": {
+      "notificationSaveErrorProductNoAlreadyExists": "Die Produktnummer \"{productNo}\" ist bereits vergeben."
     }
   },
   "sw-privileges": {

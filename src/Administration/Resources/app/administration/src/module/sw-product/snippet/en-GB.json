@@ -384,6 +384,9 @@
       "textChangeLayout": "Change layout",
       "textCreateNewLayout": "Create new layout",
       "textEditInDesigner": "Edit in designer"
+    },
+    "notification": {
+      "notificationSaveErrorProductNoAlreadyExists": "Product No. \"{productNo}\" is already assigned."
     }
   },
   "sw-privileges": {
