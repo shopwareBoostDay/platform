@@ -1,3 +1,5 @@
+Test
+
 <div align="center">
 
 [![Build Status](https://github.com/shopware/platform/workflows/PHPUnit/badge.svg)](https://github.com/shopware/platform/actions)
