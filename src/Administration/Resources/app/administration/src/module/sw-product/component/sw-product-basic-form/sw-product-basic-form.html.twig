@@ -48,6 +48,7 @@
                 <sw-field
                     type="text"
                     :disabled="!allowEdit"
+                    :error="productProductNumberError"
                     :label="$tc('sw-product.basicForm.labelProductNumber')"
                     :helpText="productNumberHelpText"
                     v-model="product.productNumber">
