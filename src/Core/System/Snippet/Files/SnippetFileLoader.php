@@ -62,14 +62,11 @@ class SnippetFileLoader implements SnippetFileLoaderInterface
         $this->loadAppSnippets($snippetFileCollection);
 
         $snippetFileCollection->sort(
-            function (SnippetFileInterface $a, SnippetFileInterface $b) {
+            static function (SnippetFileInterface $a, SnippetFileInterface $b) {
                 $prioA = ($a instanceof SortableSnippetFileInterface) ? $a->getPriority() : 0;
                 $prioB = ($b instanceof SortableSnippetFileInterface) ? $b->getPriority() : 0;
-                if ($prioA === $prioB) {
-                    return 0;
-                }
 
-                return ($prioA < $prioB) ? -1 : 1;
+                return $prioA <=> $prioB;
             }
         );
     }
