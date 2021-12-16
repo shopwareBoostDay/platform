@@ -118,6 +118,7 @@
             "categoriesLabel": "Kategorien",
             "orderLabel": "Bestellungen",
             "mediaLabel": "Medien",
+            "snippetLabel": "Snippet",
             "newsletterRecipientLabel": "Newsletter-Empfänger",
             "caretsLabel": "Caret (^)",
             "commasLabel": "Komma (,)",
@@ -203,7 +204,8 @@
             "directExportPropertiesLabel": "Eigenschaften exportieren",
             "close": "Schließen",
             "variantsWarning": "<strong>Warnung: </strong> Stelle sicher, dass die in exportierten CSV-Datei verlinkten Eigenschaften und Varianten zu den Produkten im neuen System vorhanden sind. Sollte dies nicht der Fall sein, hast du die Möglichkeit Eigenschaften und Varianten als einzelne CSV-Dateien mit entsprechenden Profilen zu exportieren. Solltest du beide Fälle nicht haben, so musst du die Produkt Varianten im Anschluss an den Export manuell im neuen System pflegen.",
-            "exportVariants": "Produktvarianten exportieren"
+            "exportVariants": "Produktvarianten exportieren",
+            "snippetWarning": "<strong>Warnung:</strong> Standard-Snippets werden nicht exportiert."
         },
         "importer": {
             "messageImportStarted": "Der Import wurde gestartet.",

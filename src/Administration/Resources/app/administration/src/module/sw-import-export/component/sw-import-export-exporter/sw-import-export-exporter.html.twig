@@ -62,6 +62,21 @@
         {% endblock %}
     </template>
 
+    <template v-if="selectedProfile && selectedProfile.sourceEntity === 'snippet'">
+        {% block sw_import_export_exporter_snippet_warning %}
+            <sw-alert
+                variant="warning"
+                class="sw-import-export-exporter__snippet-warning">
+                {% block sw_import_export_exporter_snippet_warning_text %}
+                    <p v-html="$tc('sw-import-export.exporter.snippetWarning')">
+                    </p>
+                {% endblock %}
+
+            </sw-alert>
+        {% endblock %}
+
+    </template>
+
     {% block sw_import_export_exporter_modal %}
     <sw-modal
         v-if="exportModalProfile"

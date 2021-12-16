@@ -118,6 +118,7 @@
             "categoriesLabel": "Categories",
             "orderLabel": "Orders",
             "mediaLabel": "Media",
+            "snippetLabel": "Snippet",
             "newsletterRecipientLabel": "Newsletter recipient",
             "caretsLabel": "Caret (^)",
             "commasLabel": "Comma (,)",
@@ -203,7 +204,8 @@
             "directExportPropertiesLabel": "Export properties",
             "close": "Close",
             "variantsWarning": "<strong>Warning:</strong> Make sure that the properties and variants linked to the products in the exported CSV file are available in the new system. If this is not the case, you have the possibility to export properties and variants as single CSV files with corresponding profiles. If you do not have both cases, you have to create the product variants manually in the new system after the export.",
-            "exportVariants": "Export product variants"
+            "exportVariants": "Export product variants",
+            "snippetWarning": "<strong>Warning:</strong> Default snippets are not exported."
         },
         "importer": {
             "messageImportStarted": "The import was started.",

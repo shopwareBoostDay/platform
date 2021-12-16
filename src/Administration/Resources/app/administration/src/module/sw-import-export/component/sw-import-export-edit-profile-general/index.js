@@ -109,6 +109,11 @@ Component.register('sw-import-export-edit-profile-general', {
                     label: this.$tc('sw-import-export.profile.productPriceLabel'),
                     type: profileTypes.IMPORT_EXPORT,
                 },
+                {
+                    value: 'snippet',
+                    label: this.$tc('sw-import-export.profile.snippetLabel'),
+                    type: profileTypes.IMPORT_EXPORT,
+                },
             ];
         },
 
