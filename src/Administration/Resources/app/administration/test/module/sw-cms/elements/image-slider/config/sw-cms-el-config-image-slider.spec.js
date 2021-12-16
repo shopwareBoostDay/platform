@@ -72,7 +72,19 @@ function createWrapper(activeTab = 'content') {
                     verticalAlign: {
                         source: 'static',
                         value: null
-                    }
+                    },
+                    autoplay: {
+                        source: 'static',
+                        value: false,
+                    },
+                    autoplayTimeout: {
+                        source: 'static',
+                        value: 5000,
+                    },
+                    slideAnimationSpeed: {
+                        source: 'static',
+                        value: 500,
+                    },
                 },
                 data: {}
             },

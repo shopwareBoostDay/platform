@@ -228,7 +228,10 @@
             "navigationPositionNone": "Keine",
             "navigationPositionInside": "Innen",
             "navigationPositionOutside": "Außen",
-            "navigationDots": "Punkte-Navigation"
+            "navigationDots": "Punkte-Navigation",
+            "slideAnimationSpeed": "Geschwindigkeit Slide Animation (in ms)",
+            "autoplay": "Autoplay",
+            "autoplayTimeout": "Zeit zwischen 2 Bildern (in ms)"
           }
         }
       },

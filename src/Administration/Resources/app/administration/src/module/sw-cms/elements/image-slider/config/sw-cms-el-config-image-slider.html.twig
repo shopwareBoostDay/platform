@@ -172,6 +172,32 @@
                     </div>
                     {% endblock %}
 
+                    {% block sw_cms_element_image_slider_config_autoplay %}
+                        <div class="sw-cms-el-config-image-slider__setting-autoplay">
+                            <sw-container columns="1.5fr 1fr 1.5fr" gap="0 30px">
+                                <sw-field
+                                    type="number"
+                                    v-model="element.config.slideAnimationSpeed.value"
+                                    :label="$tc('sw-cms.elements.imageSlider.config.label.slideAnimationSpeed')">
+                                </sw-field>
+
+                                <sw-field
+                                    type="switch"
+                                    v-model="element.config.autoplay.value"
+                                    :label="$tc('sw-cms.elements.imageSlider.config.label.autoplay')">
+                                </sw-field>
+
+                                <sw-field
+                                    v-if="element.config.autoplay.value"
+                                    v-model="element.config.autoplayTimeout.value"
+                                    type="number"
+                                    :label="$tc('sw-cms.elements.imageSlider.config.label.autoplayTimeout')">
+                                </sw-field>
+                            </sw-container>
+                        </div>
+                    {% endblock %}
+
+
                     {% block sw_cms_element_image_slider_config_settings_links %}
                     <div class="sw-cms-el-config-image-slider__settings-links sw-cms-el-config-image-slider__setting-option">
                         <div

@@ -228,7 +228,10 @@
             "navigationPositionNone": "None",
             "navigationPositionInside": "Inside",
             "navigationPositionOutside": "Outside",
-            "navigationDots": "Dots navigation"
+            "navigationDots": "Dots navigation",
+            "slideAnimationSpeed": "Slide animation speed (in ms)",
+            "autoplay": "Autoplay",
+            "autoplayTimeout": "Time between 2 slides (in ms)"
           }
         }
       },
