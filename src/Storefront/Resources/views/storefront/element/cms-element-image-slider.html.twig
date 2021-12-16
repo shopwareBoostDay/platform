@@ -5,7 +5,10 @@
         {% set baseSliderOptions = {
             slider: {
                 navPosition: 'bottom',
-                speed: 500,
+                speed: (sliderConfig.slideAnimationSpeed is defined) ? sliderConfig.slideAnimationSpeed.value : 500,
+                autoplay: (sliderConfig.autoplay is defined) ? sliderConfig.autoplay.value : false,
+                autoplayTimeout: (sliderConfig.autoplayTimeout is defined) ? sliderConfig.autoplayTimeout.value : 5000,
+                autoplayButtonOutput: false,
                 nav: sliderConfig.navigationDots.value ? true : false,
                 controls: sliderConfig.navigationArrows.value ? true : false,
                 autoHeight: (sliderConfig.displayMode.value == "standard") ? true : false
