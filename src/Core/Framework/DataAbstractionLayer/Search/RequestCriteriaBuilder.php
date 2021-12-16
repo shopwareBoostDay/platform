@@ -55,7 +55,8 @@ class RequestCriteriaBuilder
         if ($request->getMethod() === Request::METHOD_GET) {
             $criteria = $this->fromArray($request->query->all(), $criteria, $definition, $context, $request->attributes->getInt('version'));
         } else {
-            $criteria = $this->fromArray($request->request->all(), $criteria, $definition, $context, $request->attributes->getInt('version'));
+            $payload = array_merge($request->request->all(), $request->query->all());
+            $criteria = $this->fromArray($payload, $criteria, $definition, $context, $request->attributes->getInt('version'));
         }
 
         $this->validator->validate($definition->getEntityName(), $criteria, $context);

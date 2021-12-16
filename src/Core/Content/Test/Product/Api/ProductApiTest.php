@@ -233,6 +233,97 @@ class ProductApiTest extends TestCase
         static::assertEmpty($products['included']);
     }
 
+    public function testApiWithLimitSetByQueryParameter(): void
+    {
+        $ids = new TestDataCollection(Context::createDefaultContext());
+
+        $data = [
+            [
+                'id' => $ids->create('product'),
+                'name' => 'test',
+                'productNumber' => Uuid::randomHex(),
+                'stock' => 10,
+                'price' => [
+                    ['currencyId' => Defaults::CURRENCY, 'gross' => 15, 'net' => 10, 'linked' => false],
+                ],
+                'manufacturer' => ['name' => 'test'],
+                'tax' => ['name' => 'test', 'taxRate' => 15],
+            ],
+            [
+                'id' => $ids->create('product_2'),
+                'name' => 'test 2',
+                'productNumber' => Uuid::randomHex(),
+                'stock' => 5,
+                'price' => [
+                    ['currencyId' => Defaults::CURRENCY, 'gross' => 15, 'net' => 10, 'linked' => false],
+                ],
+                'manufacturer' => ['name' => 'test'],
+                'tax' => ['name' => 'test', 'taxRate' => 15],
+            ],
+        ];
+
+        $this->getContainer()->get('product.repository')
+            ->create($data, Context::createDefaultContext());
+
+        $this->getBrowser()->request('POST', '/api/search/product?limit=1', [], [], [], '');
+
+        $response = $this->getBrowser()->getResponse();
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+
+        $products = json_decode($response->getContent(), true);
+        static::assertCount(1, $products['data']);
+    }
+
+    public function testApiWithLimitSetByBody(): void
+    {
+        $ids = new TestDataCollection(Context::createDefaultContext());
+
+        $data = [
+            [
+                'id' => $ids->create('product'),
+                'name' => 'test',
+                'productNumber' => Uuid::randomHex(),
+                'stock' => 10,
+                'price' => [
+                    ['currencyId' => Defaults::CURRENCY, 'gross' => 15, 'net' => 10, 'linked' => false],
+                ],
+                'manufacturer' => ['name' => 'test'],
+                'tax' => ['name' => 'test', 'taxRate' => 15],
+            ],
+            [
+                'id' => $ids->create('product_2'),
+                'name' => 'test 2',
+                'productNumber' => Uuid::randomHex(),
+                'stock' => 5,
+                'price' => [
+                    ['currencyId' => Defaults::CURRENCY, 'gross' => 15, 'net' => 10, 'linked' => false],
+                ],
+                'manufacturer' => ['name' => 'test'],
+                'tax' => ['name' => 'test', 'taxRate' => 15],
+            ],
+        ];
+
+        $this->getContainer()->get('product.repository')
+            ->create($data, Context::createDefaultContext());
+
+        $this->getBrowser()->request(
+            'POST',
+            '/api/search/product',
+            [],
+            [],
+            [],
+            json_encode([
+                'limit' => 1,
+            ])
+        );
+
+        $response = $this->getBrowser()->getResponse();
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+
+        $products = json_decode($response->getContent(), true);
+        static::assertCount(1, $products['data']);
+    }
+
     public function testIncludesWithRelationships(): void
     {
         $ids = new TestDataCollection(Context::createDefaultContext());
