@@ -60,15 +60,17 @@ Component.register('sw-cms-el-image-slider', {
         },
 
         styles() {
-            if (this.element.config.displayMode.value === 'cover' &&
-                this.element.config.minHeight.value &&
-                this.element.config.minHeight.value !== 0) {
-                return {
-                    'min-height': this.element.config.minHeight.value,
-                };
+            const { displayMode, minHeight } = this.element.config;
+
+            if (displayMode.value !== 'cover') {
+                return {};
             }
 
-            return {};
+            return {
+                'min-height': displayMode.value === 'cover' && minHeight.value && minHeight.value !== 0
+                    ? minHeight.value
+                    : '300px',
+            };
         },
 
         outsideNavArrows() {

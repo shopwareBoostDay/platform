@@ -20,10 +20,16 @@ Component.register('sw-cms-el-image', {
         },
 
         styles() {
+            const { displayMode, minHeight } = this.element.config;
+
+            if (displayMode.value !== 'cover') {
+                return {};
+            }
+
             return {
-                'min-height': this.element.config.displayMode.value === 'cover' &&
-                              this.element.config.minHeight.value &&
-                              this.element.config.minHeight.value !== 0 ? this.element.config.minHeight.value : '340px',
+                'min-height': displayMode.value === 'cover' && minHeight.value && minHeight.value !== 0
+                    ? minHeight.value
+                    : '340px',
             };
         },
 
