@@ -37,6 +37,18 @@ Shopware.Service('cmsService').registerCmsElement({
             source: 'static',
             value: null,
         },
+        autoplay: {
+            source: 'static',
+            value: false,
+        },
+        autoplayTimeout: {
+            source: 'static',
+            value: 5000,
+        },
+        slideAnimationSpeed: {
+            source: 'static',
+            value: 500,
+        },
     },
     enrich: function enrich(elem, data) {
         if (Object.keys(data).length < 1) {
